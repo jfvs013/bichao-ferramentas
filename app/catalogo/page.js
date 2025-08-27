@@ -31,7 +31,7 @@ export default function CatalogoPage() {
     // Aplicar filtros baseados nos parâmetros da URL
     const categoria = searchParams.get('categoria');
     if (categoria && products.length > 0) {
-      const filtered = products.filter(product => 
+      const filtered = products.filter(product =>
         product.category.toLowerCase().includes(categoria.replace('-', ' '))
       );
       setFilteredProducts(filtered);
@@ -149,10 +149,10 @@ export default function CatalogoPage() {
               Encontre as melhores ferramentas e equipamentos para seus projetos
             </p>
           </div>
-          
+
           {/* Barra de Busca Principal */}
           <div className="max-w-2xl mx-auto">
-            <SearchBar 
+            <SearchBar
               placeholder="Buscar por produto, marca ou categoria..."
               onSearch={handleSearch}
               size="large"
@@ -166,7 +166,7 @@ export default function CatalogoPage() {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Sidebar de Filtros */}
           <aside className="lg:w-1/4">
-            <FilterSidebar 
+            <FilterSidebar
               onFiltersChange={handleFiltersChange}
               onClearFilters={() => {
                 setFilteredProducts(products);
@@ -187,11 +187,11 @@ export default function CatalogoPage() {
                   </span>
                   {searchTerm && (
                     <span className="ml-2 text-sm">
-                      para "{searchTerm}"
+                      para &quot;{searchTerm}&quot;
                     </span>
                   )}
                 </div>
-                
+
                 <div className="flex items-center space-x-4">
                   <label className="text-sm text-primary-graphite">Ordenar por:</label>
                   <select
@@ -209,13 +209,13 @@ export default function CatalogoPage() {
             </div>
 
             {/* Grid de Produtos */}
-            <ProductGrid 
+            <ProductGrid
               products={currentProducts}
               onAddToList={handleAddToList}
               onViewDetails={handleViewDetails}
               loading={loading}
               emptyMessage={
-                searchTerm 
+                searchTerm
                   ? `Nenhum produto encontrado para "${searchTerm}"`
                   : "Nenhum produto encontrado com os filtros aplicados"
               }
@@ -233,7 +233,7 @@ export default function CatalogoPage() {
                   >
                     Anterior
                   </Button>
-                  
+
                   {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                     <Button
                       key={page}
@@ -245,7 +245,7 @@ export default function CatalogoPage() {
                       {page}
                     </Button>
                   ))}
-                  
+
                   <Button
                     variant="outline"
                     size="small"
