@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import CatalogoContent from './catalogo/CatalogoContent';
+import CatalogoContent from './CatalogoContent';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 
