@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  
+  /* Paleta de Cores Bichão Ferramentas */
+  --color-black: #000000;
+  --color-graphite: #2C2C2C;
+  --color-white: #FFFFFF;
+  --color-orange: #F7931E;
+  --color-gold: #DAA520;
+  --color-chameleon-green: #00B894;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  
+  /* Cores Principais */
+  --color-primary-black: var(--color-black);
+  --color-primary-graphite: var(--color-graphite);
+  --color-primary-white: var(--color-white);
+  
+  /* Cores Secundárias */
+  --color-secondary-orange: var(--color-orange);
+  --color-secondary-gold: var(--color-gold);
+  
+  /* Cor de Destaque */
+  --color-accent-green: var(--color-chameleon-green);
+  
+  /* Aliases para facilitar o uso */
+  --color-primary: var(--color-orange);
+  --color-secondary: var(--color-chameleon-green);
+  --color-accent: var(--color-gold);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--color-black);
+    --foreground: var(--color-white);
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Estilos base para o projeto */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Utilitários personalizados */
+.text-gradient {
+  background: linear-gradient(135deg, var(--color-orange), var(--color-gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.btn-primary {
+  background: var(--color-orange);
+  color: var(--color-white);
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: var(--color-chameleon-green);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: var(--color-chameleon-green);
+  color: var(--color-white);
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--color-orange);
+  transform: translateY(-2px);
+}
+
