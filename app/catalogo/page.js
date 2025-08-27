@@ -8,7 +8,7 @@ import ProductGrid from '@/components/blocks/ProductGrid';
 import Button from '@/components/atoms/Button';
 import { mockProducts } from '@/lib/mockData';
 
-export default function CatalogoPage() {
+export default function CatalogoContent() {
   const searchParams = useSearchParams();
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -18,8 +18,8 @@ export default function CatalogoPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;
 
+  // Simulação de carregamento inicial
   useEffect(() => {
-    // Simular carregamento de produtos
     setTimeout(() => {
       setProducts(mockProducts);
       setFilteredProducts(mockProducts);
@@ -27,8 +27,8 @@ export default function CatalogoPage() {
     }, 1000);
   }, []);
 
+  // Filtro por categoria via URL
   useEffect(() => {
-    // Aplicar filtros baseados nos parâmetros da URL
     const categoria = searchParams.get('categoria');
     if (categoria && products.length > 0) {
       const filtered = products.filter(product =>
@@ -59,34 +59,23 @@ export default function CatalogoPage() {
       );
     }
 
-    // Aplicar filtros se fornecidos
+    // Aplicar filtros
     if (filters) {
-      // Filtro por categoria
-      if (filters.category && filters.category.length > 0) {
+      if (filters.category?.length > 0) {
         filtered = filtered.filter(product =>
           filters.category.includes(product.category)
         );
       }
-
-      // Filtro por marca
-      if (filters.brand && filters.brand.length > 0) {
+      if (filters.brand?.length > 0) {
         filtered = filtered.filter(product =>
           filters.brand.includes(product.brand)
         );
       }
-
-      // Filtro por faixa de preço
       if (filters.priceRange) {
         const { min, max } = filters.priceRange;
-        if (min) {
-          filtered = filtered.filter(product => product.price >= parseFloat(min));
-        }
-        if (max) {
-          filtered = filtered.filter(product => product.price <= parseFloat(max));
-        }
+        if (min) filtered = filtered.filter(p => p.price >= parseFloat(min));
+        if (max) filtered = filtered.filter(p => p.price <= parseFloat(max));
       }
-
-      // Filtro por disponibilidade
       if (filters.inStock) {
         filtered = filtered.filter(product => product.inStock);
       }
@@ -115,14 +104,17 @@ export default function CatalogoPage() {
     setFilteredProducts(sorted);
   };
 
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const handleAddToList = (product) => {
     console.log('Adicionar à lista:', product);
-    // Implementar lógica de adicionar à lista
   };
 
   const handleViewDetails = (product) => {
     console.log('Ver detalhes:', product);
-    // Navegar para página do produto
   };
 
   // Paginação
@@ -131,14 +123,9 @@ export default function CatalogoPage() {
   const endIndex = startIndex + productsPerPage;
   const currentProducts = filteredProducts.slice(startIndex, endIndex);
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header da Página */}
+      {/* Header */}
       <div className="bg-primary-white shadow-sm">
         <div className="container mx-auto px-4 py-8">
           <div className="text-center mb-8">
@@ -150,7 +137,7 @@ export default function CatalogoPage() {
             </p>
           </div>
 
-          {/* Barra de Busca Principal */}
+          {/* Barra de busca */}
           <div className="max-w-2xl mx-auto">
             <SearchBar
               placeholder="Buscar por produto, marca ou categoria..."
@@ -161,10 +148,10 @@ export default function CatalogoPage() {
         </div>
       </div>
 
-      {/* Conteúdo Principal */}
+      {/* Conteúdo */}
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Sidebar de Filtros */}
+          {/* Sidebar */}
           <aside className="lg:w-1/4">
             <FilterSidebar
               onFiltersChange={handleFiltersChange}
@@ -176,14 +163,15 @@ export default function CatalogoPage() {
             />
           </aside>
 
-          {/* Área Principal de Produtos */}
+          {/* Produtos */}
           <main className="lg:w-3/4">
-            {/* Barra de Controles */}
             <div className="bg-primary-white rounded-lg shadow-sm p-4 mb-6">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div className="text-primary-graphite">
                   <span className="font-medium">
-                    {loading ? 'Carregando...' : `${filteredProducts.length} produtos encontrados`}
+                    {loading
+                      ? 'Carregando...'
+                      : `${filteredProducts.length} produtos encontrados`}
                   </span>
                   {searchTerm && (
                     <span className="ml-2 text-sm">
@@ -193,7 +181,9 @@ export default function CatalogoPage() {
                 </div>
 
                 <div className="flex items-center space-x-4">
-                  <label className="text-sm text-primary-graphite">Ordenar por:</label>
+                  <label className="text-sm text-primary-graphite">
+                    Ordenar por:
+                  </label>
                   <select
                     value={sortBy}
                     onChange={(e) => handleSortChange(e.target.value)}
@@ -208,7 +198,6 @@ export default function CatalogoPage() {
               </div>
             </div>
 
-            {/* Grid de Produtos */}
             <ProductGrid
               products={currentProducts}
               onAddToList={handleAddToList}
@@ -217,7 +206,7 @@ export default function CatalogoPage() {
               emptyMessage={
                 searchTerm
                   ? `Nenhum produto encontrado para "${searchTerm}"`
-                  : "Nenhum produto encontrado com os filtros aplicados"
+                  : 'Nenhum produto encontrado com os filtros aplicados'
               }
             />
 
@@ -263,4 +252,3 @@ export default function CatalogoPage() {
     </div>
   );
 }
-
