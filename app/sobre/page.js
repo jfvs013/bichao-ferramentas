@@ -99,7 +99,7 @@ export default function SobrePage() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold text-primary-black mb-6">
+              <h2 className="text-3xl font-bold text-primary-black mb-6 text-center">
                 Nossa <span className="text-secondary-orange">História</span>
               </h2>
               <div className="space-y-4 text-primary-graphite leading-relaxed">
