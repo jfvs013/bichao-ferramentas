@@ -31,7 +31,7 @@ export default function Home() {
     <div className="min-h-screen bg-gray-50">
       {/* Banner Principal com Carousel */}
       <section className="mb-12">
-        <Carousel 
+        <Carousel
           items={mockBanners}
           autoPlay={true}
           interval={5000}
@@ -50,11 +50,11 @@ export default function Home() {
             Encontre exatamente o que precisa para seus projetos
           </p>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {mockCategories.map((category) => (
-            <Link 
-              key={category.id} 
+            <Link
+              key={category.id}
               href={`/catalogo?categoria=${category.slug}`}
               className="group"
             >
@@ -90,14 +90,14 @@ export default function Home() {
             Os produtos preferidos dos nossos clientes
           </p>
         </div>
-        
-        <ProductGrid 
+
+        <ProductGrid
           products={bestSellers}
           onAddToList={handleAddToList}
           onViewDetails={handleViewDetails}
           emptyMessage="Carregando produtos..."
         />
-        
+
         <div className="text-center mt-8">
           <Link href="/catalogo">
             <Button variant="outline" size="large">
@@ -127,7 +127,7 @@ export default function Home() {
                     <p className="text-primary-graphite">Trabalhamos apenas com marcas reconhecidas e produtos certificados.</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start space-x-4">
                   <div className="w-12 h-12 bg-accent-green rounded-lg flex items-center justify-center flex-shrink-0">
                     <svg className="w-6 h-6 text-primary-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -139,7 +139,7 @@ export default function Home() {
                     <p className="text-primary-graphite">Preços competitivos e condições especiais para profissionais.</p>
                   </div>
                 </div>
-                
+
                 <div className="flex items-start space-x-4">
                   <div className="w-12 h-12 bg-secondary-gold rounded-lg flex items-center justify-center flex-shrink-0">
                     <svg className="w-6 h-6 text-primary-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -153,14 +153,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-            
-            <div className="bg-gradient-to-br from-secondary-orange to-accent-green rounded-lg p-8 text-primary-white text-center">
-              <h3 className="text-2xl font-bold mb-4">Cadastre-se e Ganhe 10% OFF</h3>
-              <p className="mb-6">Na sua primeira compra acima de R$ 100</p>
-              <Button variant="secondary" size="large" className="bg-primary-white text-secondary-orange hover:bg-gray-100">
-                Cadastrar Agora
-              </Button>
-            </div>
+
           </div>
         </div>
       </section>
@@ -175,8 +168,8 @@ export default function Home() {
             Selecionamos especialmente para você
           </p>
         </div>
-        
-        <ProductGrid 
+
+        <ProductGrid
           products={featuredProducts}
           onAddToList={handleAddToList}
           onViewDetails={handleViewDetails}
