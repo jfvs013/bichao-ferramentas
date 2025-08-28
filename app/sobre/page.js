@@ -120,22 +120,6 @@ export default function SobrePage() {
               </div>
             </div>
 
-            <div className="bg-primary-white rounded-lg shadow-lg p-8">
-              <div className="grid grid-cols-2 gap-6 text-center">
-                <div>
-                  <div className="text-3xl font-bold text-secondary-orange mb-2">Produtos</div>
-                  <div className="text-primary-graphite">5 Estrelas</div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-secondary-orange mb-2">Satisfação dos</div>
-                  <div className="text-primary-graphite">Clientes Atendidos</div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-secondary-orange mb-2">98%</div>
-                  <div className="text-primary-graphite">Satisfação</div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </section>
