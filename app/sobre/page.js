@@ -82,7 +82,7 @@ export default function SobrePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-[#2c3e50] via-[#f5f5f5] to-[#ff6600] text-primary-white py-20">
+      <section className="bg-gradient-to-r from-[#060d14] via-[#c4bcbcfa] to-[#ff6600] text-primary-white py-20">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-5xl font-bold mb-6">
             Sobre a <span className="text-secondary-gold">Bichão Ferramentas</span>
