@@ -141,7 +141,7 @@ export default function SobrePage() {
                 <h3 className="text-xl font-semibold text-[#CFAF5F] mb-2">
                   {value.title}
                 </h3>
-                <p className="text-primary-graphite">
+                <p className="text-white">
                   {value.description}
                 </p>
               </div>
