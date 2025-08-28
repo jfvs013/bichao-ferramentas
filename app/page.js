@@ -38,12 +38,12 @@ export default function Home() {
       </section>
 
       {/* Seção de Categorias Principais */}
-      <section className="container mx-auto px-4 mb-16">
-        <div className="text-center mb-8">
+      <section className="container mx-auto px-4 mb-16 bg-[#F5F5F5] text-[#121212] transition-colors duration-500 rounded-lg shadow-lg">
+        <div className="text-center py-12">
           <h2 className="text-3xl font-bold mb-4">
             Explore Nossas <span className="text-[#00B894]">Categorias</span>
           </h2>
-          <p className="text-lg text-[#B3B3B3] max-w-2xl mx-auto">
+          <p className="text-lg text-[#666666] max-w-2xl mx-auto">
             Encontre exatamente o que precisa para seus projetos
           </p>
         </div>
@@ -55,7 +55,7 @@ export default function Home() {
               href={`/catalogo?categoria=${category.slug}`}
               className="group"
             >
-              <div className="bg-[#2C2C2C] rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden transform group-hover:scale-105">
+              <div className="bg-[#FFFFFF] rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden transform group-hover:scale-105">
                 <div className="aspect-square bg-gradient-to-br from-[#CFAF5F] to-[#8C7A3E] p-8 flex items-center justify-center">
                   <div className="text-center text-white">
                     <div className="w-16 h-16 mx-auto mb-4 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
@@ -67,7 +67,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="p-4">
-                  <p className="text-[#B3B3B3] text-sm text-center group-hover:text-[#CFAF5F] transition-colors">
+                  <p className="text-[#121212] text-sm text-center group-hover:text-[#CFAF5F] transition-colors">
                     {category.description}
                   </p>
                 </div>
@@ -105,11 +105,11 @@ export default function Home() {
       </section>
 
       {/* Seção de Destaques */}
-      <section className="bg-[#2C2C2C] py-16 mb-16 transition-colors duration-500">
+      <section className="bg-[#F5F5F5] py-16 mb-16 transition-colors duration-500 text-[#121212]">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center text-center">
             <div>
-              <h2 className="text-3xl font-bold text-white mb-6">
+              <h2 className="text-3xl font-bold text-[#121212] mb-6">
                 Por que escolher a <span className="text-[#00B894]">Bichão Ferramentas</span>?
               </h2>
               <div className="space-y-6">
@@ -120,8 +120,8 @@ export default function Home() {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-white mb-2">Qualidade Garantida</h3>
-                    <p className="text-[#B3B3B3]">Trabalhamos apenas com marcas reconhecidas e produtos certificados.</p>
+                    <h3 className="text-xl font-semibold text-[#121212] mb-2">Qualidade Garantida</h3>
+                    <p className="text-[#666666]">Trabalhamos apenas com marcas reconhecidas e produtos certificados.</p>
                   </div>
                 </div>
 
@@ -132,8 +132,8 @@ export default function Home() {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-white mb-2">Melhor Preço</h3>
-                    <p className="text-[#B3B3B3]">Preços competitivos e condições especiais para profissionais.</p>
+                    <h3 className="text-xl font-semibold text-[#121212] mb-2">Melhor Preço</h3>
+                    <p className="text-[#666666]">Preços competitivos e condições especiais para profissionais.</p>
                   </div>
                 </div>
 
@@ -144,8 +144,8 @@ export default function Home() {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-white mb-2">Entrega Rápida</h3>
-                    <p className="text-[#B3B3B3]">Entregamos em todo o Brasil com agilidade e segurança.</p>
+                    <h3 className="text-xl font-semibold text-[#121212] mb-2">Entrega Rápida</h3>
+                    <p className="text-[#666666]">Entregamos em todo o Brasil com agilidade e segurança.</p>
                   </div>
                 </div>
               </div>
