@@ -95,10 +95,10 @@ export default function SobrePage() {
 
       {/* Nossa História */}
       <section className="py-16">
-        <div className="container mx-auto px-4 items-center text-center">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center text-center">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 gap-12 text-center lg:grid-cols-2 lg:items-center">
             <div>
-              <h2 className="text-3xl font-bold text-primary-black mb-6 text-center">
+              <h2 className="text-3xl font-bold text-primary-black mb-6">
                 Nossa <span className="text-secondary-orange">História</span>
               </h2>
               <div className="space-y-4 text-primary-graphite leading-relaxed">
@@ -118,7 +118,6 @@ export default function SobrePage() {
                 </p>
               </div>
             </div>
-
           </div>
         </div>
       </section>
