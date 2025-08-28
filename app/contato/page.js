@@ -2,8 +2,6 @@
 'use client';
 
 import { useState } from 'react';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
 import Button from '@/components/atoms/Button';
 import Input from '@/components/atoms/Input'; // Importa o novo componente Input
 
@@ -76,7 +74,6 @@ export default function ContatoPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-secondary-orange to-accent-green text-primary-white py-20">
         <div className="container mx-auto px-4 text-center">
@@ -236,7 +233,6 @@ export default function ContatoPage() {
           </div>
         </div>
       </section>
-      <Footer />
       {showSuccessModal && (
         <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex justify-center items-center z-50">
           <div className="bg-white p-8 rounded-lg shadow-xl max-w-sm mx-auto">

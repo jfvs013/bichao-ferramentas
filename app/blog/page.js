@@ -4,8 +4,6 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import Header from '@/components/layout/Header';
-import Footer from '@/components/layout/Footer';
 import SearchBar from '@/components/atoms/SearchBar';
 import Button from '@/components/atoms/Button';
 import { mockBlogPosts } from '@/lib/mockData';
@@ -28,7 +26,6 @@ export default function BlogPage() {
 
   return (
     <>
-      <Header />
       <main className="min-h-screen bg-gray-50 py-12">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
@@ -103,7 +100,6 @@ export default function BlogPage() {
           )}
         </div>
       </main>
-      <Footer />
     </>
   );
 }
