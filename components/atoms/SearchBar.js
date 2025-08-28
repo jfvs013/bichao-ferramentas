@@ -2,8 +2,7 @@
 'use client';
 
 import { useState } from 'react';
-import Input from './input'; // Importa o novo componente Input
-import Button from './Button';
+import Input from './Input';
 
 export default function SearchBar({
   placeholder = 'Buscar ferramentas...',
