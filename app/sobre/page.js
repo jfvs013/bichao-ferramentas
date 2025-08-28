@@ -5,23 +5,11 @@ import Link from 'next/link';
 export default function SobrePage() {
   const teamMembers = [
     {
-      name: "João Silva",
+      name: "João Do Gravatá",
       role: "Fundador & CEO",
-      description: "Mais de 20 anos de experiência no setor de ferramentas e construção.",
-      image: "/images/team/joao-silva.jpg"
+      description: "Anos de experiência no setor de ferramentas.",
+      image: "/images/team/Joaodogravata.png"
     },
-    {
-      name: "Maria Santos",
-      role: "Diretora Comercial",
-      description: "Especialista em atendimento ao cliente e desenvolvimento de negócios.",
-      image: "/images/team/maria-santos.jpg"
-    },
-    {
-      name: "Carlos Oliveira",
-      role: "Gerente de Produtos",
-      description: "Engenheiro mecânico com expertise em ferramentas industriais.",
-      image: "/images/team/carlos-oliveira.jpg"
-    }
   ];
 
   const values = [
@@ -100,7 +88,7 @@ export default function SobrePage() {
             Sobre a <span className="text-secondary-gold">Bichão Ferramentas</span>
           </h1>
           <p className="text-xl max-w-3xl mx-auto leading-relaxed">
-            Há mais de 10 anos no mercado, somos especialistas em fornecer as melhores ferramentas 
+            Somos especialistas em fornecer as melhores ferramentas
             e equipamentos para profissionais e entusiastas da construção e marcenaria.
           </p>
         </div>
@@ -116,35 +104,30 @@ export default function SobrePage() {
               </h2>
               <div className="space-y-4 text-primary-graphite leading-relaxed">
                 <p>
-                  A Bichão Ferramentas nasceu em 2014 com um objetivo simples: democratizar o acesso 
-                  a ferramentas de qualidade profissional. Começamos como uma pequena loja física 
-                  em São Paulo, atendendo principalmente profissionais da construção civil.
+                  A Bichão Ferramentas nasceu com um objetivo simples: simplificar o acesso
+                  a ferramentas de qualidade profissional. Começamos atendendo principalmente profissionais da construção civil.
                 </p>
                 <p>
-                  Com o passar dos anos, percebemos a necessidade de expandir nosso alcance e, em 2018, 
-                  lançamos nossa plataforma online. Isso nos permitiu atender clientes em todo o Brasil, 
+                  Com o passar do tempo, percebemos a necessidade de expandir nosso alcance e,
+                  lançamos nossa plataforma online. Isso nos permite atender clientes em todo o Brasil,
                   mantendo sempre nosso compromisso com a qualidade e o atendimento personalizado.
                 </p>
                 <p>
-                  Hoje, somos referência no setor, oferecendo mais de 5.000 produtos de marcas 
-                  reconhecidas mundialmente. Nossa missão continua a mesma: fornecer as melhores 
+                  Hoje, oferecemos diversos produtos de marcas
+                  reconhecidas mundialmente. Nossa missão continua a mesma: fornecer as melhores
                   ferramentas para que nossos clientes realizem seus projetos com excelência.
                 </p>
               </div>
             </div>
-            
+
             <div className="bg-primary-white rounded-lg shadow-lg p-8">
               <div className="grid grid-cols-2 gap-6 text-center">
                 <div>
-                  <div className="text-3xl font-bold text-secondary-orange mb-2">10+</div>
-                  <div className="text-primary-graphite">Anos de Experiência</div>
+                  <div className="text-3xl font-bold text-secondary-orange mb-2">Produtos</div>
+                  <div className="text-primary-graphite">5 Estrelas</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-bold text-secondary-orange mb-2">5.000+</div>
-                  <div className="text-primary-graphite">Produtos</div>
-                </div>
-                <div>
-                  <div className="text-3xl font-bold text-secondary-orange mb-2">50.000+</div>
+                  <div className="text-3xl font-bold text-secondary-orange mb-2">Satisfação dos</div>
                   <div className="text-primary-graphite">Clientes Atendidos</div>
                 </div>
                 <div>
@@ -168,7 +151,7 @@ export default function SobrePage() {
               Os princípios que guiam nossa empresa e nosso relacionamento com os clientes
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {values.map((value, index) => (
               <div key={index} className="text-center">
@@ -188,7 +171,7 @@ export default function SobrePage() {
       </section>
 
       {/* Timeline */}
-      <section className="py-16">
+      {/* <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-primary-black mb-4">
@@ -197,20 +180,20 @@ export default function SobrePage() {
             <p className="text-lg text-primary-graphite max-w-2xl mx-auto">
               Os principais marcos da nossa jornada
             </p>
-          </div>
-          
-          <div className="max-w-4xl mx-auto">
+          </div> */}
+
+      {/* <div className="max-w-4xl mx-auto">
             <div className="relative">
               {/* Linha do tempo */}
-              <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-secondary-orange"></div>
-              
-              {milestones.map((milestone, index) => (
-                <div key={index} className={`relative flex items-center mb-12 ${index % 2 === 0 ? 'justify-start' : 'justify-end'}`}>
-                  {/* Ponto na linha */}
-                  <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-secondary-orange rounded-full border-4 border-primary-white shadow-lg z-10"></div>
-                  
-                  {/* Conteúdo */}
-                  <div className={`w-5/12 ${index % 2 === 0 ? 'text-right pr-8' : 'text-left pl-8'}`}>
+      {/* <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-secondary-orange"></div> */}
+
+      {/* {milestones.map((milestone, index) => (
+            <div key={index} className={`relative flex items-center mb-12 ${index % 2 === 0 ? 'justify-start' : 'justify-end'}`}> */}
+      {/* Ponto na linha */}
+      {/* <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-secondary-orange rounded-full border-4 border-primary-white shadow-lg z-10"></div> */}
+
+      {/* Conteúdo */}
+      {/* <div className={`w-5/12 ${index % 2 === 0 ? 'text-right pr-8' : 'text-left pl-8'}`}>
                     <div className="bg-primary-white rounded-lg shadow-md p-6">
                       <div className="text-2xl font-bold text-secondary-orange mb-2">
                         {milestone.year}
@@ -227,11 +210,11 @@ export default function SobrePage() {
               ))}
             </div>
           </div>
-        </div>
-      </section>
+        </div> */}
+      {/* </section> */}
 
       {/* Equipe */}
-      <section className="bg-primary-white py-16">
+      < section className="bg-primary-white py-16" >
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-primary-black mb-4">
@@ -241,7 +224,7 @@ export default function SobrePage() {
               Conheça as pessoas que fazem a diferença na Bichão Ferramentas
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {teamMembers.map((member, index) => (
               <div key={index} className="text-center">
