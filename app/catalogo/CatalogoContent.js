@@ -125,7 +125,7 @@ export default function CatalogoContent() {
 
     return (
         <div className="min-h-screen bg-gray-50">
-            {/* Header */}
+            {/* Header do Catálogo */}
             <div className="bg-primary-white shadow-sm">
                 <div className="container mx-auto px-4 py-8">
                     <div className="text-center mb-8">
@@ -135,15 +135,6 @@ export default function CatalogoContent() {
                         <p className="text-lg text-primary-graphite max-w-2xl mx-auto">
                             Encontre as melhores ferramentas e equipamentos para seus projetos
                         </p>
-                    </div>
-
-                    {/* Barra de busca */}
-                    <div className="max-w-2xl mx-auto">
-                        <SearchBar
-                            placeholder="Buscar por produto, marca ou categoria..."
-                            onSearch={handleSearch}
-                            size="large"
-                        />
                     </div>
                 </div>
             </div>
@@ -187,7 +178,7 @@ export default function CatalogoContent() {
                                     <select
                                         value={sortBy}
                                         onChange={(e) => handleSortChange(e.target.value)}
-                                        className="border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:border-secondary-orange"
+                                        className="border border-gray-300 rounded-md px-3 py-1 text-sm focus:outline-none focus:border-secondary-orange text-gray-800"
                                     >
                                         <option value="name">Nome A-Z</option>
                                         <option value="price-asc">Menor Preço</option>
