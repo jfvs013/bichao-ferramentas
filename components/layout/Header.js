@@ -125,15 +125,6 @@ export default function Header() {
                 <Link href="/catalogo?categoria=ferramentas-manuais" className="block px-4 py-2 text-primary-graphite hover:bg-gray-100 hover:text-secondary-orange">
                   Ferramentas Manuais
                 </Link>
-                <Link href="/catalogo?categoria=ferramentas-eletricas" className="block px-4 py-2 text-primary-graphite hover:bg-gray-100 hover:text-secondary-orange">
-                  Ferramentas Elétricas
-                </Link>
-                <Link href="/catalogo?categoria=equipamentos-seguranca" className="block px-4 py-2 text-primary-graphite hover:bg-gray-100 hover:text-secondary-orange">
-                  Equipamentos de Segurança
-                </Link>
-                <Link href="/catalogo?categoria=materiais-construcao" className="block px-4 py-2 text-primary-graphite hover:bg-gray-100 hover:text-secondary-orange">
-                  Materiais de Construção
-                </Link>
               </div>
             </div>
           </div>

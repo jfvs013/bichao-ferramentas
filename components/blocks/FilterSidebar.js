@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Button from '../atoms/Button';
 
-export default function FilterSidebar({ 
+export default function FilterSidebar({
   filters = {},
   onFiltersChange,
   onClearFilters,
@@ -20,12 +20,6 @@ export default function FilterSidebar({
 
   const categories = [
     'Ferramentas Manuais',
-    'Ferramentas Elétricas',
-    'Equipamentos de Segurança',
-    'Materiais de Construção',
-    'Parafusos e Fixadores',
-    'Tintas e Vernizes',
-    'Equipamentos de Jardim'
   ];
 
   const brands = [
@@ -43,10 +37,10 @@ export default function FilterSidebar({
     const newCategories = activeFilters.category.includes(category)
       ? activeFilters.category.filter(c => c !== category)
       : [...activeFilters.category, category];
-    
+
     const newFilters = { ...activeFilters, category: newCategories };
     setActiveFilters(newFilters);
-    
+
     if (onFiltersChange) {
       onFiltersChange(newFilters);
     }
@@ -56,10 +50,10 @@ export default function FilterSidebar({
     const newBrands = activeFilters.brand.includes(brand)
       ? activeFilters.brand.filter(b => b !== brand)
       : [...activeFilters.brand, brand];
-    
+
     const newFilters = { ...activeFilters, brand: newBrands };
     setActiveFilters(newFilters);
-    
+
     if (onFiltersChange) {
       onFiltersChange(newFilters);
     }
@@ -69,7 +63,7 @@ export default function FilterSidebar({
     const newPriceRange = { ...activeFilters.priceRange, [field]: value };
     const newFilters = { ...activeFilters, priceRange: newPriceRange };
     setActiveFilters(newFilters);
-    
+
     if (onFiltersChange) {
       onFiltersChange(newFilters);
     }
@@ -78,7 +72,7 @@ export default function FilterSidebar({
   const handleStockChange = () => {
     const newFilters = { ...activeFilters, inStock: !activeFilters.inStock };
     setActiveFilters(newFilters);
-    
+
     if (onFiltersChange) {
       onFiltersChange(newFilters);
     }
@@ -92,7 +86,7 @@ export default function FilterSidebar({
       inStock: false
     };
     setActiveFilters(clearedFilters);
-    
+
     if (onClearFilters) {
       onClearFilters();
     }
@@ -101,7 +95,7 @@ export default function FilterSidebar({
     }
   };
 
-  const hasActiveFilters = 
+  const hasActiveFilters =
     activeFilters.category.length > 0 ||
     activeFilters.brand.length > 0 ||
     activeFilters.priceRange.min ||
