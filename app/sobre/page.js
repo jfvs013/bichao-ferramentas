@@ -96,8 +96,8 @@ export default function SobrePage() {
 
       {/* Nossa História */}
       <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div className="container mx-auto px-4 items-center text-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center text-center">
             <div>
               <h2 className="text-3xl font-bold text-primary-black mb-6 text-center">
                 Nossa <span className="text-secondary-orange">História</span>
