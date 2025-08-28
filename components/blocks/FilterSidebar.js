@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Button from '../atoms/Button';
+import Input from '../atoms/Input'; // Importação do componente Input
 
 export default function FilterSidebar({
   filters = {},
@@ -177,19 +178,21 @@ export default function FilterSidebar({
         <div className="mb-6">
           <h4 className="font-medium text-primary-black mb-3">Faixa de Preço</h4>
           <div className="flex gap-2">
-            <input
+            {/* Uso do componente Input para o campo de preço mínimo */}
+            <Input
               type="number"
               placeholder="Min"
               value={activeFilters.priceRange.min}
               onChange={(e) => handlePriceChange('min', e.target.value)}
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-secondary-orange"
+              className="flex-1"
             />
-            <input
+            {/* Uso do componente Input para o campo de preço máximo */}
+            <Input
               type="number"
               placeholder="Max"
               value={activeFilters.priceRange.max}
               onChange={(e) => handlePriceChange('max', e.target.value)}
-              className="flex-1 px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-secondary-orange"
+              className="flex-1"
             />
           </div>
         </div>
@@ -223,4 +226,3 @@ export default function FilterSidebar({
     </>
   );
 }
-
