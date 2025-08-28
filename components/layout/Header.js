@@ -1,3 +1,4 @@
+// components/layout/Header.js
 'use client';
 
 import { useState } from 'react';
@@ -18,7 +19,7 @@ export default function Header() {
   ];
 
   const handleSearch = (searchTerm) => {
-    // Implementar lógica de busca
+    // Lógica de busca. Em uma aplicação real, você redirecionaria para a página de busca.
     console.log('Buscar por:', searchTerm);
   };
 
@@ -163,4 +164,3 @@ export default function Header() {
     </header>
   );
 }
-

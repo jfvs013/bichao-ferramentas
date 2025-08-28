@@ -110,7 +110,7 @@ export default function Home() {
       {/* Seção de Destaques */}
       <section className="bg-primary-white py-16 mb-16">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center text-center">
             <div>
               <h2 className="text-3xl font-bold text-primary-black mb-6">
                 Por que escolher a <span className="text-secondary-orange">Bichão Ferramentas</span>?
