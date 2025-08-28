@@ -96,27 +96,25 @@ export default function SobrePage() {
       {/* Nossa História */}
       <section className="py-16">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 gap-12 text-center lg:grid-cols-2 lg:items-center">
-            <div>
-              <h2 className="text-3xl font-bold text-primary-black mb-6">
-                Nossa <span className="text-secondary-orange">História</span>
-              </h2>
-              <div className="space-y-4 text-primary-graphite leading-relaxed">
-                <p>
-                  A Bichão Ferramentas nasceu com um objetivo simples: simplificar o acesso
-                  a ferramentas de qualidade profissional. Começamos atendendo principalmente profissionais da construção civil.
-                </p>
-                <p>
-                  Com o passar do tempo, percebemos a necessidade de expandir nosso alcance e,
-                  lançamos nossa plataforma online. Isso nos permite atender clientes em todo o Brasil,
-                  mantendo sempre nosso compromisso com a qualidade e o atendimento personalizado.
-                </p>
-                <p>
-                  Hoje, oferecemos diversos produtos de marcas
-                  reconhecidas mundialmente. Nossa missão continua a mesma: fornecer as melhores
-                  ferramentas para que nossos clientes realizem seus projetos com excelência.
-                </p>
-              </div>
+          <div className="flex flex-col items-center text-center">
+            <h2 className="text-3xl font-bold text-primary-black mb-6">
+              Nossa <span className="text-secondary-orange">História</span>
+            </h2>
+            <div className="space-y-4 text-primary-graphite leading-relaxed max-w-2xl">
+              <p>
+                A Bichão Ferramentas nasceu com um objetivo simples: simplificar o acesso
+                a ferramentas de qualidade profissional. Começamos atendendo principalmente profissionais da construção civil.
+              </p>
+              <p>
+                Com o passar do tempo, percebemos a necessidade de expandir nosso alcance e,
+                lançamos nossa plataforma online. Isso nos permite atender clientes em todo o Brasil,
+                mantendo sempre nosso compromisso com a qualidade e o atendimento personalizado.
+              </p>
+              <p>
+                Hoje, oferecemos diversos produtos de marcas
+                reconhecidas mundialmente. Nossa missão continua a mesma: fornecer as melhores
+                ferramentas para que nossos clientes realizem seus projetos com excelência.
+              </p>
             </div>
           </div>
         </div>
