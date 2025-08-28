@@ -139,7 +139,7 @@ export default function Home() {
 
                 <div className="flex items-start space-x-4">
                   <div className="w-12 h-12 bg-[#CFAF5F] rounded-lg flex items-center justify-center flex-shrink-0 border border-[#CFAF5F]">
-                    <svg className="w-6 h-6 text-[#00B894]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 1.5M7 13l1.5 1.5M17 21a2 2 0 100-4 2 2 0 000 4zM9 21a2 2 0 100-4 2 2 0 000 4z" />
                     </svg>
                   </div>
