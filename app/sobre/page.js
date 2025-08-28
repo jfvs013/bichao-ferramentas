@@ -124,7 +124,7 @@ export default function SobrePage() {
       <section className="bg-[#2C2C2C] py-16">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-primary-black mb-4">
+            <h2 className="text-3xl font-bold text-primary-white mb-4">
               Nossos <span className="text-secondary-orange">Valores</span>
             </h2>
             <p className="text-lg text-primary-graphite max-w-2xl mx-auto">
@@ -138,7 +138,7 @@ export default function SobrePage() {
                 <div className="w-16 h-16 bg-secondary-orange text-primary-white rounded-full flex items-center justify-center mx-auto mb-4">
                   {value.icon}
                 </div>
-                <h3 className="text-xl font-semibold text-primary-black mb-2">
+                <h3 className="text-xl font-semibold text-[#CFAF5F] mb-2">
                   {value.title}
                 </h3>
                 <p className="text-primary-graphite">
