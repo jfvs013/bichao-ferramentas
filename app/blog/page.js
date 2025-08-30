@@ -1,4 +1,3 @@
-// app/blog/page.js
 'use client';
 
 import { useState } from 'react';
@@ -26,17 +25,20 @@ export default function BlogPage() {
 
   return (
     <>
+      {/* Hero Section */}
+      <section className="bg-gradient-to-r from-[#060d14] via-[#c4bcbcfa] to-[#ff6600] text-primary-white py-20">
+        <div className="container mx-auto px-4 text-center">
+          <h1 className="text-5xl font-bold mb-6">
+            Nosso <span className="text-[#ff9900]">Blog</span>
+          </h1>
+          <p className="text-xl max-w-3xl mx-auto leading-relaxed">
+            Artigos, dicas e novidades sobre o universo das ferramentas.
+          </p>
+        </div>
+      </section>
+
       <main className="min-h-screen bg-gray-50 py-12">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-primary-black mb-4">
-              Nosso <span className="text-secondary-orange">Blog</span>
-            </h1>
-            <p className="text-lg text-primary-graphite max-w-2xl mx-auto">
-              Artigos, dicas e novidades sobre o universo das ferramentas.
-            </p>
-          </div>
-
           <div className="max-w-xl mx-auto mb-10">
             <SearchBar
               placeholder="Buscar artigos..."
