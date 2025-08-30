@@ -78,29 +78,31 @@ export default function Home() {
       </section>
 
       {/* Seção de Produtos Mais Vendidos */}
-      <section className="container mx-auto px-4 mb-16">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold mb-4">
-            Mais <span className="text-[#00B894]">Vendidos</span>
-          </h2>
-          <p className="text-lg text-[#B3B3B3] max-w-2xl mx-auto">
-            Os produtos preferidos dos nossos clientes
-          </p>
-        </div>
+      <section className="bg-[#2C2C2C] py-12">
+        <div className="container mx-auto px-4 mb-16">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold mb-4 text-white">
+              Mais <span className="text-[#00B894]">Vendidos</span>
+            </h2>
+            <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+              Os produtos preferidos dos nossos clientes
+            </p>
+          </div>
 
-        <ProductGrid
-          products={bestSellers}
-          onAddToList={handleAddToList}
-          onViewDetails={handleViewDetails}
-          emptyMessage="Carregando produtos..."
-        />
+          <ProductGrid
+            products={bestSellers}
+            onAddToList={handleAddToList}
+            onViewDetails={handleViewDetails}
+            emptyMessage="Carregando produtos..."
+          />
 
-        <div className="text-center mt-8">
-          <Link href="/catalogo">
-            <Button className="bg-[#00B894] text-white px-6 py-3 rounded-lg hover:bg-[#009e7f] transition-colors">
-              Ver Todos os Produtos
-            </Button>
-          </Link>
+          <div className="text-center mt-8">
+            <Link href="/catalogo">
+              <Button className="bg-[#00B894] text-white px-6 py-3 rounded-lg hover:bg-[#009e7f] transition-colors">
+                Ver Todos os Produtos
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
 
