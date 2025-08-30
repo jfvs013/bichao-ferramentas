@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Carousel from '@/components/blocks/Carousel'; // Ainda é importado, mas não usado na seção do banner
 import ProductGrid from '@/components/blocks/ProductGrid';
 import Button from '@/components/atoms/Button';
 import Image from 'next/image';
@@ -28,16 +27,16 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#121212] text-white transition-colors duration-500">
       {/* Seção da Logo e Título - Fundo branco e largura total */}
-      <section className="w-full bg-white py-20 flex flex-col items-center justify-center">
+      <section className="w-full bg-white py-12 flex flex-col items-center justify-center">
         <div className="text-center">
           <Image
             src="/images/logoBichaoFerramentasBG.png"
             alt="Logo Bichão Ferramentas"
-            width={400} // Ajuste o tamanho da logo conforme necessário
-            height={200} // Ajuste o tamanho da logo conforme necessário
+            width={300} // Tamanho ajustado para diminuir o espaçamento
+            height={150} // Tamanho ajustado para diminuir o espaçamento
             objectFit="contain"
           />
-          <h1 className="text-4xl md:text-5xl font-bold mt-8 mb-4 text-[#121212]">
+          <h1 className="text-4xl md:text-5xl font-bold mt-4 mb-4 text-[#121212]"> {/* Espaçamento superior e inferior diminuídos */}
             Ferramentas <span className="text-[#ff6600]">Profissionais</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-700 max-w-2xl mx-auto mb-8">
@@ -51,13 +50,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Seção de Categorias Principais - Fundo branco */}
-      <section className="w-full bg-white py-20 text-[#121212] transition-colors duration-500">
+      {/* Seção de Categorias Principais - Fundo cinza escuro */}
+      <section className="w-full bg-[#2C2C2C] py-20 text-white transition-colors duration-500">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">
             Explore Nossas <span className="text-[#ff6600]">Categorias</span>
           </h2>
-          <p className="text-lg text-[#666666] max-w-2xl mx-auto">
+          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
             Encontre exatamente o que precisa para seus projetos
           </p>
         </div>
@@ -90,14 +89,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Seção de Produtos Mais Vendidos - Fundo cinza escuro */}
-      <section className="w-full bg-[#2C2C2C] py-20">
+      {/* Seção de Produtos Mais Vendidos - Fundo branco */}
+      <section className="w-full bg-white py-20 text-[#121212]">
         <div className="container mx-auto px-4 mb-16">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold mb-4 text-white">
+            <h2 className="text-3xl font-bold mb-4">
               Mais <span className="text-[#ff6600]">Vendidos</span>
             </h2>
-            <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-700 max-w-2xl mx-auto">
               Os produtos preferidos dos nossos clientes
             </p>
           </div>
@@ -117,8 +116,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Seção de Destaques - Fundo branco */}
-      <section className="w-full bg-white py-20 transition-colors duration-500 text-[#121212]">
+      {/* Seção de Destaques - Fundo cinza escuro */}
+      <section className="w-full bg-[#2C2C2C] py-20 transition-colors duration-500 text-white">
         <div className="container mx-auto px-4 flex flex-col items-center">
           <div className="text-center">
             <h2 className="text-3xl font-bold mb-6">
@@ -133,7 +132,7 @@ export default function Home() {
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold text-[#CFAF5F] mb-2">Qualidade Garantida</h3>
-                  <p className="text-gray-600">Trabalhamos apenas com marcas reconhecidas e produtos certificados.</p>
+                  <p className="text-gray-300">Trabalhamos apenas com marcas reconhecidas e produtos certificados.</p>
                 </div>
               </div>
               <div className="flex items-start space-x-4 text-left">
@@ -144,7 +143,7 @@ export default function Home() {
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold text-[#CFAF5F] mb-2">Melhor Preço</h3>
-                  <p className="text-gray-600">Preços competitivos e condições especiais para profissionais.</p>
+                  <p className="text-gray-300">Preços competitivos e condições especiais para profissionais.</p>
                 </div>
               </div>
               <div className="flex items-start space-x-4 text-left">
@@ -155,7 +154,7 @@ export default function Home() {
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold text-[#CFAF5F] mb-2">Entrega Rápida</h3>
-                  <p className="text-gray-600">Entregamos em todo o Brasil com agilidade e segurança.</p>
+                  <p className="text-gray-300">Entregamos em todo o Brasil com agilidade e segurança.</p>
                 </div>
               </div>
             </div>
@@ -163,14 +162,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Seção de Produtos em Destaque - Fundo cinza escuro */}
-      <section className="w-full bg-[#2C2C2C] py-20">
+      {/* Seção de Produtos em Destaque - Fundo Branco */}
+      <section className="w-full bg-white py-20 text-[#121212]">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold mb-4 text-white">
+            <h2 className="text-3xl font-bold mb-4">
               Produtos em <span className="text-[#CFAF5F]">Destaque</span>
             </h2>
-            <p className="text-lg text-white max-w-2xl mx-auto">
+            <p className="text-lg text-gray-700 max-w-2xl mx-auto">
               Selecionamos especialmente para você
             </p>
           </div>
