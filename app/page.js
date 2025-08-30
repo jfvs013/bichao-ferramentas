@@ -155,7 +155,7 @@ export default function Home() {
       </section>
 
       {/* Seção de Produtos em Destaque */}
-      <section className="bg-[#2C2C2C] py-12">
+      <section className="bg-[#F5F5F5] py-12">
         <div className="container mx-auto px-4 mb-16">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-white mb-4">
