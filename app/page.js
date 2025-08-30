@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Carousel from '@/components/blocks/Carousel';
 import ProductGrid from '@/components/blocks/ProductGrid';
 import Button from '@/components/atoms/Button';
+import Image from 'next/image'; // Importar o componente Image do Next.js
 import { mockProducts, mockCategories, mockBanners } from '@/lib/mockData';
 
 export default function Home() {
@@ -26,15 +27,29 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#121212] text-white transition-colors duration-500">
-      {/* Banner Principal com Carousel - Fundo preto, sem bordas */}
-      <section className="w-full bg-black py-20 text-white">
-        <Carousel
-          items={mockBanners}
-          autoPlay={true}
-          interval={5000}
-          showDots={true}
-          showArrows={true}
-        />
+      {/* Banner Principal com Logo e Carousel */}
+      <section className="w-full bg-[#1A1A1A] py-10 text-white flex flex-col items-center justify-center">
+        {/* Logo */}
+        <div className="mb-8">
+          <Image
+            src="/images/logoBichaoFerramentasBG.png" // Caminho relativo à pasta `public`
+            alt="Logo Bichão Ferramentas"
+            width={300} // Ajuste a largura conforme necessário
+            height={150} // Ajuste a altura conforme necessário
+            objectFit="contain"
+          />
+        </div>
+
+        {/* Conteúdo do Carrossel */}
+        <div className="max-w-4xl w-full"> {/* Container para o carrossel, ajuste o max-w conforme desejar */}
+          <Carousel
+            items={mockBanners}
+            autoPlay={true}
+            interval={5000}
+            showDots={true}
+            showArrows={true}
+          />
+        </div>
       </section>
 
       {/* Seção de Categorias Principais - Fundo branco */}
