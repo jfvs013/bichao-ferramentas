@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Carousel from '@/components/blocks/Carousel';
+import Carousel from '@/components/blocks/Carousel'; // Ainda é importado, mas não usado na seção do banner
 import ProductGrid from '@/components/blocks/ProductGrid';
 import Button from '@/components/atoms/Button';
-import Image from 'next/image'; // Importar o componente Image do Next.js
+import Image from 'next/image';
 import { mockProducts, mockCategories, mockBanners } from '@/lib/mockData';
 
 export default function Home() {
@@ -27,28 +27,27 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#121212] text-white transition-colors duration-500">
-      {/* Banner Principal com Logo e Carousel */}
-      <section className="w-full bg-[#1A1A1A] py-10 text-white flex flex-col items-center justify-center">
-        {/* Logo */}
-        <div className="mb-8">
+      {/* Seção da Logo e Título - Fundo branco e largura total */}
+      <section className="w-full bg-white py-20 flex flex-col items-center justify-center">
+        <div className="text-center">
           <Image
-            src="/images/logoBichaoFerramentasBG.png" // Caminho relativo à pasta `public`
+            src="/images/logoBichaoFerramentasBG.png"
             alt="Logo Bichão Ferramentas"
-            width={300} // Ajuste a largura conforme necessário
-            height={150} // Ajuste a altura conforme necessário
+            width={400} // Ajuste o tamanho da logo conforme necessário
+            height={200} // Ajuste o tamanho da logo conforme necessário
             objectFit="contain"
           />
-        </div>
-
-        {/* Conteúdo do Carrossel */}
-        <div className="max-w-4xl w-full"> {/* Container para o carrossel, ajuste o max-w conforme desejar */}
-          <Carousel
-            items={mockBanners}
-            autoPlay={true}
-            interval={5000}
-            showDots={true}
-            showArrows={true}
-          />
+          <h1 className="text-4xl md:text-5xl font-bold mt-8 mb-4 text-[#121212]">
+            Ferramentas <span className="text-[#ff6600]">Profissionais</span>
+          </h1>
+          <p className="text-lg md:text-xl text-gray-700 max-w-2xl mx-auto mb-8">
+            Encontre tudo que precisa para seus projetos com os melhores preços
+          </p>
+          <Link href="/catalogo">
+            <Button className="bg-[#ff6600] text-white px-8 py-4 rounded-lg hover:bg-orange-600 transition-colors">
+              Ver Catálogo
+            </Button>
+          </Link>
         </div>
       </section>
 
@@ -62,7 +61,6 @@ export default function Home() {
             Encontre exatamente o que precisa para seus projetos
           </p>
         </div>
-
         <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
           {mockCategories.map((category) => (
             <Link
@@ -103,14 +101,12 @@ export default function Home() {
               Os produtos preferidos dos nossos clientes
             </p>
           </div>
-
           <ProductGrid
             products={bestSellers}
             onAddToList={handleAddToList}
             onViewDetails={handleViewDetails}
             emptyMessage="Carregando produtos..."
           />
-
           <div className="text-center mt-8">
             <Link href="/catalogo">
               <Button className="bg-[#00B894] text-white px-6 py-3 rounded-lg hover:bg-[#009e7f] transition-colors">
@@ -140,7 +136,6 @@ export default function Home() {
                   <p className="text-gray-600">Trabalhamos apenas com marcas reconhecidas e produtos certificados.</p>
                 </div>
               </div>
-
               <div className="flex items-start space-x-4 text-left">
                 <div className="w-12 h-12 bg-[#ff6600] rounded-lg flex items-center justify-center flex-shrink-0">
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -152,7 +147,6 @@ export default function Home() {
                   <p className="text-gray-600">Preços competitivos e condições especiais para profissionais.</p>
                 </div>
               </div>
-
               <div className="flex items-start space-x-4 text-left">
                 <div className="w-12 h-12 bg-[#ff6600] rounded-lg flex items-center justify-center flex-shrink-0 border border-[#CFAF5F]">
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -180,7 +174,6 @@ export default function Home() {
               Selecionamos especialmente para você
             </p>
           </div>
-
           <ProductGrid
             products={featuredProducts}
             onAddToList={handleAddToList}
