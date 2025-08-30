@@ -46,10 +46,15 @@ export default function Header() {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="w-12 h-12 bg-secondary-orange rounded-lg flex items-center justify-center">
-              <span className="text-primary-white font-bold text-xl">B</span>
-            </div>
+          <Link href="/images/logoBichaoFerramentasBG.png" className="flex items-center space-x-2">
+            {/* Substituindo o B por um componente Image */}
+            <Image
+              src="/images/logoBichaoFerramentasBG.png" // Verifique se o caminho da imagem está correto
+              alt="Logo Bichão Ferramentas"
+              width={50} // Ajuste o tamanho da logo conforme necessário
+              height={50}
+              className="rounded-lg" // Mantenha a borda arredondada se desejar
+            />
             <div>
               <h1 className="text-xl font-bold text-primary-black">
                 Bichão <span className="text-secondary-orange">Ferramentas</span>
