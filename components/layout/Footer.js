@@ -7,7 +7,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   const companyLinks = [
-    { href: '/´catalogo', label: 'Catalogo' },
+    { href: '/catalogo', label: 'Catalogo' },
     { href: '/sobre', label: 'Sobre Nós' },
     { href: '/blog', label: 'Blog' },
     { href: '/contato', label: 'Contato' },
