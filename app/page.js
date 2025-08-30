@@ -1,3 +1,4 @@
+// app/page.js
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -188,19 +189,19 @@ export default function Home() {
       <section className="w-full bg-black text-white py-20 transition-colors duration-500">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4 text-white">
-            Pronto para começar seu <span className="text-[#ff6600]">projeto</span>?
+            Pronto para começar seu <span className="text-secondary-orange">projeto</span>?
           </h2>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
             Encontre todas as ferramentas que precisa em um só lugar
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/catalogo">
-              <Button className="bg-[#ff6600] text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition-colors">
+              <Button variant="primary" size="large">
                 Ver Catálogo Completo
               </Button>
             </Link>
             <Link href="/contato">
-              <Button className="border border-white text-white hover:bg-white hover:text-black px-6 py-3 rounded-lg transition-colors">
+              <Button variant="outline" size="large" className="border-primary-white text-primary-white hover:bg-primary-white hover:text-primary-black">
                 Fale Conosco
               </Button>
             </Link>
