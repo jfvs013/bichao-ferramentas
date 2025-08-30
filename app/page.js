@@ -176,7 +176,7 @@ export default function Home() {
       </section>
 
       {/* Call to Action Final */}
-      <section className="bg-[#2C2C2C] text-white py-16 transition-colors duration-500">
+      <section className="bg-primary-black text-white py-16 transition-colors duration-500">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">
             Pronto para começar seu <span className="text-[#00B894]">projeto</span>?
