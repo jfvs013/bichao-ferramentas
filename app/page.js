@@ -155,22 +155,24 @@ export default function Home() {
       </section>
 
       {/* Seção de Produtos em Destaque */}
-      <section className="container mx-auto px-4 mb-16">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-white mb-4">
-            Produtos em <span className="text-[#00B894]">Destaque</span>
-          </h2>
-          <p className="text-lg text-[#B3B3B3] max-w-2xl mx-auto">
-            Selecionamos especialmente para você
-          </p>
-        </div>
+      <section className="bg-[#2C2C2C] py-12">
+        <div className="container mx-auto px-4 mb-16">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-white mb-4">
+              Produtos em <span className="text-[#00B894]">Destaque</span>
+            </h2>
+            <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+              Selecionamos especialmente para você
+            </p>
+          </div>
 
-        <ProductGrid
-          products={featuredProducts}
-          onAddToList={handleAddToList}
-          onViewDetails={handleViewDetails}
-          emptyMessage="Carregando produtos em destaque..."
-        />
+          <ProductGrid
+            products={featuredProducts}
+            onAddToList={handleAddToList}
+            onViewDetails={handleViewDetails}
+            emptyMessage="Carregando produtos em destaque..."
+          />
+        </div>
       </section>
 
       {/* Call to Action Final */}
