@@ -28,15 +28,17 @@ export default function Home() {
     <div className="min-h-screen bg-[#121212] text-white transition-colors duration-500">
       {/* Seção da Logo e Título - Fundo branco e largura total */}
       <section className="w-full bg-white py-12 flex flex-col items-center justify-center">
-        <div className="text-center">
-          <Image
-            src="/images/logoBichaoFerramentasBG.png"
-            alt="Logo Bichão Ferramentas"
-            width={300} // Tamanho ajustado para diminuir o espaçamento
-            height={150} // Tamanho ajustado para diminuir o espaçamento
-            objectFit="contain"
-          />
-          <h1 className="text-4xl md:text-5xl font-bold mt-4 mb-4 text-[#121212]"> {/* Espaçamento superior e inferior diminuídos */}
+        <div className="text-center w-full"> {/* Adicionado w-full para o container de texto */}
+          <div className="flex justify-center w-full"> {/* Nova div para centralizar a imagem */}
+            <Image
+              src="/images/logoBichaoFerramentasBG.png"
+              alt="Logo Bichão Ferramentas"
+              width={300}
+              height={150}
+              objectFit="contain"
+            />
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold mt-4 mb-4 text-[#121212]">
             Ferramentas <span className="text-[#ff6600]">Profissionais</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-700 max-w-2xl mx-auto mb-8">
