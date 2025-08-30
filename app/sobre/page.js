@@ -1,198 +1,261 @@
-'use client';
-
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import Carousel from '@/components/blocks/Carousel';
-import ProductGrid from '@/components/blocks/ProductGrid';
+import Image from 'next/image';
 import Button from '@/components/atoms/Button';
-import { mockProducts, mockCategories, mockBanners } from '@/lib/mockData';
+import Link from 'next/link';
 
-export default function Home() {
-  const [featuredProducts, setFeaturedProducts] = useState([]);
-  const [bestSellers, setBestSellers] = useState([]);
+export default function SobrePage() {
+  const teamMembers = [
+    {
+      name: "João Do Gravatá",
+      role: "Fundador & CEO",
+      description: "Anos de experiência no setor de ferramentas.",
+      image: "/images/team/Joaodogravata.png"
+    },
+  ];
 
-  useEffect(() => {
-    setFeaturedProducts(mockProducts.slice(0, 4));
-    setBestSellers(mockProducts.filter(product => product.discount).slice(0, 6));
-  }, []);
+  const values = [
+    {
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+      ),
+      title: "Qualidade",
+      description: "Trabalhamos apenas com produtos de alta qualidade e marcas reconhecidas no mercado."
+    },
+    {
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+        </svg>
+      ),
+      title: "Atendimento",
+      description: "Nossa equipe está sempre pronta para ajudar você a encontrar a ferramenta ideal."
+    },
+    {
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+      ),
+      title: "Agilidade",
+      description: "Entrega rápida e eficiente para que seus projetos não parem."
+    },
+    {
+      icon: (
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+        </svg>
+      ),
+      title: "Preço Justo",
+      description: "Os melhores preços do mercado sem comprometer a qualidade."
+    }
+  ];
 
-  const handleAddToList = (product) => {
-    console.log('Adicionar à lista:', product);
-  };
-
-  const handleViewDetails = (product) => {
-    console.log('Ver detalhes:', product);
-  };
+  const milestones = [
+    {
+      year: "2014",
+      title: "Fundação da Empresa",
+      description: "Início das atividades com foco em ferramentas manuais."
+    },
+    {
+      year: "2016",
+      title: "Expansão do Catálogo",
+      description: "Adição de ferramentas elétricas e equipamentos de segurança."
+    },
+    {
+      year: "2018",
+      title: "Loja Online",
+      description: "Lançamento da plataforma de e-commerce."
+    },
+    {
+      year: "2020",
+      title: "Crescimento Nacional",
+      description: "Expansão para todo o território brasileiro."
+    },
+    {
+      year: "2024",
+      title: "Nova Plataforma",
+      description: "Renovação completa da experiência digital."
+    }
+  ];
 
   return (
-    <div className="min-h-screen bg-[#121212] text-white transition-colors duration-500">
-      {/* Banner Principal com Carousel - Fundo preto, sem bordas */}
-      <section className="w-full bg-black py-20 text-white">
-        <Carousel
-          items={mockBanners}
-          autoPlay={true}
-          interval={5000}
-          showDots={true}
-          showArrows={true}
-        />
-      </section>
-
-      {/* Seção de Categorias Principais - Fundo branco */}
-      <section className="w-full bg-white py-20 text-[#121212] transition-colors duration-500">
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section */}
+      <section className="bg-gradient-to-r from-[#060d14] via-[#c4bcbcfa] to-[#ff6600] text-primary-white py-20">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">
-            Explore Nossas <span className="text-[#ff6600]">Categorias</span>
-          </h2>
-          <p className="text-lg text-[#666666] max-w-2xl mx-auto">
-            Encontre exatamente o que precisa para seus projetos
+          <h1 className="text-5xl font-bold mb-6">
+            Sobre a <span className="text-secondary-gold">Bichão Ferramentas</span>
+          </h1>
+          <p className="text-xl max-w-3xl mx-auto leading-relaxed">
+            Somos especialistas em fornecer as melhores ferramentas e equipamentos para profissionais e entusiastas da construção e marcenaria.
           </p>
         </div>
-
-        <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
-          {mockCategories.map((category) => (
-            <Link
-              key={category.id}
-              href={`/catalogo?categoria=${category.slug}`}
-              className="group"
-            >
-              <div className="bg-[#FFFFFF] rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden transform group-hover:scale-105">
-                <div className="aspect-square bg-gradient-to-br from-[#CFAF5F] to-[#8C7A3E] p-8 flex items-center justify-center">
-                  <div className="text-center text-white">
-                    <div className="w-16 h-16 mx-auto mb-4 bg-[#ff6600] rounded-full flex items-center justify-center">
-                      <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                      </svg>
-                    </div>
-                    <h3 className="font-bold text-lg mb-2 text-[#CFAF5F]">{category.name}</h3>
-                  </div>
-                </div>
-                <div className="p-4">
-                  <p className="text-[#121212] text-sm text-center group-hover:text-[#CFAF5F] transition-colors">
-                    {category.description}
-                  </p>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
       </section>
 
-      {/* Seção de Produtos Mais Vendidos - Fundo cinza escuro */}
-      <section className="w-full bg-[#2C2C2C] py-20">
-        <div className="container mx-auto px-4 mb-16">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold mb-4 text-white">
-              Mais <span className="text-[#ff6600]">Vendidos</span>
+      {/* Nossa História */}
+      <section className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col items-center text-center">
+            <h2 className="text-3xl font-bold text-primary-black mb-6">
+              Nossa <span className="text-secondary-orange">História</span>
             </h2>
-            <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-              Os produtos preferidos dos nossos clientes
-            </p>
-          </div>
-
-          <ProductGrid
-            products={bestSellers}
-            onAddToList={handleAddToList}
-            onViewDetails={handleViewDetails}
-            emptyMessage="Carregando produtos..."
-          />
-
-          <div className="text-center mt-8">
-            <Link href="/catalogo">
-              <Button className="bg-[#00B894] text-white px-6 py-3 rounded-lg hover:bg-[#009e7f] transition-colors">
-                Ver Todos os Produtos
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Seção de Destaques - Fundo branco */}
-      <section className="w-full bg-white py-20 transition-colors duration-500 text-[#121212]">
-        <div className="container mx-auto px-4 flex flex-col items-center">
-          <div className="text-center">
-            <h2 className="text-3xl font-bold mb-6">
-              Por que escolher a <span className="text-[#ff6600]">Bichão Ferramentas</span>?
-            </h2>
-            <div className="space-y-6 max-w-2xl mx-auto">
-              <div className="flex items-start space-x-4 text-left">
-                <div className="w-12 h-12 bg-[#ff6600] rounded-lg flex items-center justify-center flex-shrink-0">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-[#CFAF5F] mb-2">Qualidade Garantida</h3>
-                  <p className="text-gray-600">Trabalhamos apenas com marcas reconhecidas e produtos certificados.</p>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4 text-left">
-                <div className="w-12 h-12 bg-[#ff6600] rounded-lg flex items-center justify-center flex-shrink-0">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-[#CFAF5F] mb-2">Melhor Preço</h3>
-                  <p className="text-gray-600">Preços competitivos e condições especiais para profissionais.</p>
-                </div>
-              </div>
-
-              <div className="flex items-start space-x-4 text-left">
-                <div className="w-12 h-12 bg-[#ff6600] rounded-lg flex items-center justify-center flex-shrink-0 border border-[#CFAF5F]">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 1.5M7 13l1.5 1.5M17 21a2 2 0 100-4 2 2 0 000 4zM9 21a2 2 0 100-4 2 2 0 000 4z" />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-[#CFAF5F] mb-2">Entrega Rápida</h3>
-                  <p className="text-gray-600">Entregamos em todo o Brasil com agilidade e segurança.</p>
-                </div>
-              </div>
+            <div className="space-y-4 text-primary-graphite leading-relaxed max-w-2xl">
+              <p>
+                A Bichão Ferramentas nasceu com um objetivo simples: simplificar o acesso
+                a ferramentas de qualidade profissional. Começamos atendendo principalmente profissionais da construção civil.
+              </p>
+              <p>
+                Com o passar do tempo, percebemos a necessidade de expandir nosso alcance e,
+                lançamos nossa plataforma online. Isso nos permite atender clientes em todo o Brasil,
+                mantendo sempre nosso compromisso com a qualidade e o atendimento personalizado.
+              </p>
+              <p>
+                Hoje, oferecemos diversos produtos de marcas
+                reconhecidas mundialmente. Nossa missão continua a mesma: fornecer as melhores
+                ferramentas para que nossos clientes realizem seus projetos com excelência.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Seção de Produtos em Destaque - Fundo cinza escuro */}
-      <section className="w-full bg-[#2C2C2C] py-20">
+      {/* Nossos Valores */}
+      <section className="bg-[#2C2C2C] py-16">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold mb-4 text-white">
-              Produtos em <span className="text-[#CFAF5F]">Destaque</span>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-primary-white mb-4">
+              Nossos <span className="text-secondary-orange">Valores</span>
             </h2>
-            <p className="text-lg text-white max-w-2xl mx-auto">
-              Selecionamos especialmente para você
+            <p className="text-lg text-primary-graphite max-w-2xl mx-auto">
+              Os princípios que guiam nossa empresa e nosso relacionamento com os clientes
             </p>
           </div>
 
-          <ProductGrid
-            products={featuredProducts}
-            onAddToList={handleAddToList}
-            onViewDetails={handleViewDetails}
-            emptyMessage="Carregando produtos em destaque..."
-          />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {values.map((value, index) => (
+              <div key={index} className="text-center">
+                <div className="w-16 h-16 bg-secondary-orange text-primary-white rounded-full flex items-center justify-center mx-auto mb-4">
+                  {value.icon}
+                </div>
+                <h3 className="text-xl font-semibold text-[#CFAF5F] mb-2">
+                  {value.title}
+                </h3>
+                <p className="text-white">
+                  {value.description}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      {/* Call to Action Final - Fundo preto, com botões atualizados */}
-      <section className="w-full bg-black text-white py-20 transition-colors duration-500">
+      {/* Timeline */}
+      {/* <section className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-primary-black mb-4">
+              Nossa <span className="text-secondary-orange">Trajetória</span>
+            </h2>
+            <p className="text-lg text-primary-graphite max-w-2xl mx-auto">
+              Os principais marcos da nossa jornada
+            </p>
+          </div> */}
+
+      {/* <div className="max-w-4xl mx-auto">
+            <div className="relative">
+              {/* Linha do tempo */}
+      {/* <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-secondary-orange"></div> */}
+
+      {/* {milestones.map((milestone, index) => (
+            <div key={index} className={`relative flex items-center mb-12 ${index % 2 === 0 ? 'justify-start' : 'justify-end'}`}> */}
+      {/* Ponto na linha */}
+      {/* <div className="absolute left-1/2 transform -translate-x-1/2 w-4 h-4 bg-secondary-orange rounded-full border-4 border-primary-white shadow-lg z-10"></div> */}
+
+      {/* Conteúdo */}
+      {/* <div className={`w-5/12 ${index % 2 === 0 ? 'text-right pr-8' : 'text-left pl-8'}`}>
+                    <div className="bg-primary-white rounded-lg shadow-md p-6">
+                      <div className="text-2xl font-bold text-secondary-orange mb-2">
+                        {milestone.year}
+                      </div>
+                      <h3 className="text-lg font-semibold text-primary-black mb-2">
+                        {milestone.title}
+                      </h3>
+                      <p className="text-primary-graphite">
+                        {milestone.description}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div> */}
+      {/* </section> */}
+
+      {/* Equipe */}
+      < section className="bg-primary-white py-16" >
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-primary-black mb-4">
+              Nossa <span className="text-secondary-orange">Equipe</span>
+            </h2>
+            <p className="text-lg text-primary-graphite max-w-2xl mx-auto">
+              Conheça as pessoas que fazem a diferença na Bichão Ferramentas
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {teamMembers.map((member, index) => (
+              <div key={index} className="text-center">
+                <div className="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden bg-gray-200">
+                  {member.image ? (
+                    <Image
+                      src={member.image}
+                      alt={member.name}
+                      width={128}
+                      height={128}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-secondary-orange text-primary-white text-2xl font-bold">
+                      {member.name.split(' ').map(n => n[0]).join('')}
+                    </div>
+                  )}
+                </div>
+                <h3 className="text-xl font-semibold text-primary-black mb-1">
+                  {member.name}
+                </h3>
+                <div className="text-secondary-orange font-medium mb-2">
+                  {member.role}
+                </div>
+                <p className="text-primary-graphite text-sm">
+                  {member.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="bg-primary-black text-primary-white py-16">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4 text-white">
-            Pronto para começar seu <span className="text-[#ff6600]">projeto</span>?
+          <h2 className="text-3xl font-bold mb-4">
+            Pronto para fazer parte da nossa <span className="text-secondary-orange">história</span>?
           </h2>
           <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            Encontre todas as ferramentas que precisa em um só lugar
+            Descubra por que milhares de profissionais confiam na Bichão Ferramentas
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/catalogo">
-              <Button className="bg-[#ff6600] text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition-colors">
-                Ver Catálogo Completo
+              <Button variant="primary" size="large">
+                Explorar Produtos
               </Button>
             </Link>
             <Link href="/contato">
-              <Button className="border border-white text-white hover:bg-white hover:text-black px-6 py-3 rounded-lg transition-colors">
-                Fale Conosco
+              <Button variant="outline" size="large" className="border-primary-white text-primary-white hover:bg-primary-white hover:text-primary-black">
+                Entre em Contato
               </Button>
             </Link>
           </div>
@@ -201,3 +264,4 @@ export default function Home() {
     </div>
   );
 }
+
