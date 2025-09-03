@@ -4,21 +4,39 @@ import Link from 'next/link';
 import ProductGrid from '@/components/blocks/ProductGrid';
 import ProductClient from '@/components/products/ProductClient';
 import Button from '@/components/atoms/Button';
-import { mockProducts } from '@/lib/mockData';
+import { client } from '@/lib/sanity';
 
-// Funções de busca de dados (simuladas)
+// Query GROQ para buscar um produto por slug
+const productQuery = `
+  *[_type == "product" && slug.current == $slug][0] {
+    ...,
+    "imageUrl": mainImage.asset->url,
+    "categoryTitle": category->title
+  }
+`;
+
+// Query GROQ para buscar produtos relacionados por categoria, excluindo o produto atual
+const relatedProductsQuery = `
+  *[_type == "product" && category->title == $categoryTitle && slug.current != $slug] | order(publishedAt desc) [0...4] {
+    _id,
+    name,
+    "slug": slug.current,
+    "imageUrl": mainImage.asset->url,
+    price,
+    "categoryTitle": category->title
+  }
+`;
+
+// Função para buscar um produto por slug no Sanity
 async function fetchProductBySlug(slug) {
-  // Em uma aplicação real, você faria uma chamada à API do Sanity ou banco de dados
-  // Exemplo: const product = await sanityClient.fetch(`...`);
-  const product = mockProducts.find(p => p.slug === slug) || null;
+  const product = await client.fetch(productQuery, { slug });
   return product;
 }
 
-async function fetchRelatedProducts(category, currentProductId) {
-  // Simulação de busca de produtos relacionados da mesma categoria
-  const related = mockProducts
-    .filter(p => p.id !== currentProductId && p.category === category)
-    .slice(0, 4);
+// Função para buscar produtos relacionados no Sanity
+async function fetchRelatedProducts(categoryTitle, currentSlug) {
+  if (!categoryTitle) return [];
+  const related = await client.fetch(relatedProductsQuery, { categoryTitle, slug: currentSlug });
   return related;
 }
 
@@ -31,7 +49,7 @@ const formatPrice = (price) => {
 
 export default async function ProductPage({ params }) {
   const product = await fetchProductBySlug(params.slug);
-  const relatedProducts = product ? await fetchRelatedProducts(product.category, product.id) : [];
+  const relatedProducts = product ? await fetchRelatedProducts(product.categoryTitle, params.slug) : [];
 
   if (!product) {
     return (
@@ -56,8 +74,8 @@ export default async function ProductPage({ params }) {
             <span>/</span>
             <Link href="/catalogo" className="hover:text-secondary-orange">Catálogo</Link>
             <span>/</span>
-            <Link href={`/catalogo?categoria=${product.category.toLowerCase().replace(' ', '-')}`} className="hover:text-secondary-orange">
-              {product.category}
+            <Link href={`/catalogo?categoria=${product.categoryTitle.toLowerCase().replace(' ', '-')}`} className="hover:text-secondary-orange">
+              {product.categoryTitle}
             </Link>
             <span>/</span>
             <span className="text-primary-black font-medium">{product.name}</span>
