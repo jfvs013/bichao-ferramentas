@@ -1,5 +1,4 @@
 // app/produtos/[slug]/page.js
-// app/produtos/[slug]/page.js
 
 import Link from 'next/link';
 import ProductGrid from '@/components/blocks/ProductGrid';

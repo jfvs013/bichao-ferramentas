@@ -1,25 +1,46 @@
-// app/blog/[slug]/page.js
-
 import Link from 'next/link';
 import Image from 'next/image';
 import Button from '@/components/atoms/Button';
-import { mockBlogPosts } from '@/lib/mockData';
+import { client } from '@/lib/sanity';
+import { PortableText } from '@portabletext/react';
 
-// Funções de busca de dados assíncronas
+// Query GROQ para buscar um post de blog por slug
+const postQuery = `
+  *[_type == "post" && slug.current == $slug][0] {
+    ...,
+    "authorName": author->name,
+    "categoryTitle": categories[0]->title,
+    "imageUrl": mainImage.asset->url
+  }
+`;
+
+// Query GROQ para buscar posts relacionados por categoria, excluindo o post atual
+const relatedPostsQuery = `
+  *[_type == "post" && slug.current != $slug && $categoryTitle in categories[]->title] | order(publishedAt desc) [0...3] {
+    _id,
+    title,
+    "slug": slug.current,
+    "imageUrl": mainImage.asset->url,
+    "excerpt": excerpt,
+    "categoryTitle": categories[0]->title,
+    publishedAt
+  }
+`;
+
+// Função para buscar um post por slug no Sanity
 async function fetchBlogPostBySlug(slug) {
-  // Simulação de busca no banco de dados
-  const post = mockBlogPosts.find(p => p.slug === slug) || null;
+  const post = await client.fetch(postQuery, { slug });
   return post;
 }
 
-async function fetchRelatedPosts(category, currentPostId) {
-  // Simulação de busca por posts relacionados
-  const related = mockBlogPosts
-    .filter(p => p.id !== currentPostId && p.category === category)
-    .slice(0, 3);
+// Função para buscar posts relacionados no Sanity
+async function fetchRelatedPosts(categoryTitle, currentSlug) {
+  if (!categoryTitle) return [];
+  const related = await client.fetch(relatedPostsQuery, { categoryTitle, slug: currentSlug });
   return related;
 }
 
+// Formatar a data
 const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString('pt-BR', {
     year: 'numeric',
@@ -28,9 +49,50 @@ const formatDate = (dateString) => {
   });
 };
 
+// Componente para renderizar o conteúdo portátil
+const PortableTextComponent = {
+  types: {
+    image: ({ value }) => (
+      <Image
+        src={value.asset.url}
+        alt={value.alt || 'Imagem do post'}
+        width={800}
+        height={450}
+        className="my-8 rounded-lg"
+      />
+    ),
+  },
+  block: {
+    h1: ({ children }) => <h1 className="text-4xl md:text-5xl font-bold mt-12 mb-4 leading-tight">{children}</h1>,
+    h2: ({ children }) => <h2 className="text-3xl font-bold mt-10 mb-3 leading-tight">{children}</h2>,
+    h3: ({ children }) => <h3 className="text-2xl font-bold mt-8 mb-2 leading-tight">{children}</h3>,
+    normal: ({ children }) => <p className="text-primary-graphite leading-relaxed mb-4 text-base md:text-lg">{children}</p>,
+    blockquote: ({ children }) => <blockquote className="border-l-4 border-secondary-orange pl-4 italic my-6">{children}</blockquote>,
+  },
+  list: {
+    bullet: ({ children }) => <ul className="list-disc list-inside space-y-2 mb-4 pl-4">{children}</ul>,
+    number: ({ children }) => <ol className="list-decimal list-inside space-y-2 mb-4 pl-4">{children}</ol>,
+  },
+  listItem: {
+    bullet: ({ children }) => <li className="text-primary-graphite">{children}</li>,
+    number: ({ children }) => <li className="text-primary-graphite">{children}</li>,
+  },
+  marks: {
+    link: ({ children, value }) => {
+      const rel = !value.href.startsWith('/') ? 'noreferrer noopener' : undefined;
+      return (
+        <a href={value.href} rel={rel} className="text-secondary-orange hover:underline transition-colors">
+          {children}
+        </a>
+      );
+    },
+    strong: ({ children }) => <strong>{children}</strong>,
+    em: ({ children }) => <em>{children}</em>,
+  },
+};
+
 export default async function BlogPostPage({ params }) {
   const post = await fetchBlogPostBySlug(params.slug);
-  const relatedPosts = post ? await fetchRelatedPosts(post.category, post.id) : [];
 
   if (!post) {
     return (
@@ -45,37 +107,7 @@ export default async function BlogPostPage({ params }) {
     );
   }
 
-  const fullContent = `
-    <p>Este é um exemplo de conteúdo completo do post sobre ${post.title.toLowerCase()}. O conteúdo seria carregado dinamicamente do backend em uma implementação real.</p>
-    
-    <h2>Introdução</h2>
-    <p>Neste artigo, vamos abordar os principais aspectos que você precisa conhecer sobre este tópico. Nossa equipe de especialistas preparou um guia completo para ajudar você a tomar as melhores decisões.</p>
-    
-    <h2>Principais Características</h2>
-    <p>Quando se trata de escolher a ferramenta ideal, alguns fatores são fundamentais:</p>
-    <ul>
-      <li>Qualidade dos materiais utilizados</li>
-      <li>Durabilidade e resistência</li>
-      <li>Facilidade de uso e ergonomia</li>
-      <li>Custo-benefício</li>
-      <li>Disponibilidade de peças de reposição</li>
-    </ul>
-    
-    <h2>Dicas Importantes</h2>
-    <p>Nossa experiência de mais de 10 anos no mercado nos permite compartilhar algumas dicas valiosas:</p>
-    <ol>
-      <li>Sempre verifique a procedência do produto</li>
-      <li>Leia atentamente o manual de instruções</li>
-      <li>Mantenha suas ferramentas sempre limpas e organizadas</li>
-      <li>Invista em equipamentos de proteção individual</li>
-      <li>Faça manutenção preventiva regularmente</li>
-    </ol>
-    
-    <h2>Conclusão</h2>
-    <p>Esperamos que este artigo tenha sido útil para esclarecer suas dúvidas. Se você tiver alguma pergunta específica, não hesite em entrar em contato conosco através dos nossos canais de atendimento.</p>
-    
-    <p>Continue acompanhando nosso blog para mais dicas e novidades do mundo das ferramentas!</p>
-  `;
+  const relatedPosts = await fetchRelatedPosts(post.categoryTitle, post.slug.current);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -99,7 +131,7 @@ export default async function BlogPostPage({ params }) {
           <header className="mb-12">
             <div className="flex items-center space-x-4 mb-6">
               <span className="bg-secondary-orange text-primary-white px-3 py-1 rounded-full text-sm font-medium">
-                {post.category}
+                {post.categoryTitle}
               </span>
               <span className="text-primary-graphite text-sm">
                 {formatDate(post.publishedAt)}
@@ -117,43 +149,33 @@ export default async function BlogPostPage({ params }) {
             <div className="flex items-center space-x-6 text-sm text-primary-graphite">
               <div className="flex items-center space-x-2">
                 <div className="w-8 h-8 bg-secondary-orange rounded-full flex items-center justify-center text-primary-white font-semibold text-xs">
-                  {post.author.split(' ').map(n => n[0]).join('')}
+                  {post.authorName?.split(' ').map(n => n[0]).join('')}
                 </div>
-                <span>Por <strong>{post.author}</strong></span>
+                <span>Por <strong>{post.authorName}</strong></span>
               </div>
               <span>•</span>
-              <span>5 min de leitura</span>
+              <span>{Math.ceil((post.body.length || 0) / 1000) || 5} min de leitura</span>
             </div>
           </header>
 
           {/* Imagem Principal */}
-          <div className="aspect-video bg-gray-200 rounded-lg overflow-hidden mb-12">
-            {post.image ? (
+          {post.imageUrl && (
+            <div className="aspect-video bg-gray-200 rounded-lg overflow-hidden mb-12">
               <Image
-                src={post.image}
+                src={post.imageUrl}
                 alt={post.title}
                 width={800}
                 height={450}
                 className="w-full h-full object-cover"
               />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-secondary-orange to-accent-green text-primary-white">
-                <svg className="w-24 h-24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                </svg>
-              </div>
-            )}
-          </div>
+            </div>
+          )}
 
           {/* Conteúdo do Post */}
           <div className="prose prose-lg max-w-none mb-12">
-            <div
-              className="text-primary-graphite leading-relaxed"
-              dangerouslySetInnerHTML={{ __html: fullContent }}
-              style={{
-                fontSize: '18px',
-                lineHeight: '1.8'
-              }}
+            <PortableText
+              value={post.body}
+              components={PortableTextComponent}
             />
           </div>
 
@@ -179,12 +201,12 @@ export default async function BlogPostPage({ params }) {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
               {relatedPosts.map((relatedPost) => (
-                <article key={relatedPost.id} className="bg-gray-50 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+                <article key={relatedPost._id} className="bg-gray-50 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
                   <Link href={`/blog/${relatedPost.slug}`}>
                     <div className="aspect-video bg-gray-200">
-                      {relatedPost.image ? (
+                      {relatedPost.imageUrl ? (
                         <Image
-                          src={relatedPost.image}
+                          src={relatedPost.imageUrl}
                           alt={relatedPost.title}
                           width={400}
                           height={250}
@@ -201,7 +223,7 @@ export default async function BlogPostPage({ params }) {
                     <div className="p-6">
                       <div className="flex items-center space-x-2 mb-3">
                         <span className="bg-gray-200 text-primary-graphite px-2 py-1 rounded text-xs font-medium">
-                          {relatedPost.category}
+                          {relatedPost.categoryTitle}
                         </span>
                         <span className="text-primary-graphite text-xs">
                           {formatDate(relatedPost.publishedAt)}

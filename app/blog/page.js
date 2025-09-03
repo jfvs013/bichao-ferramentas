@@ -1,28 +1,36 @@
-// app/blog/page.js
-'use client';
-
-import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import SearchBar from '@/components/atoms/SearchBar';
 import Button from '@/components/atoms/Button';
-import { mockBlogPosts } from '@/lib/mockData';
+import { client } from '@/lib/sanity/client';
+import { urlForImage } from '@/lib/sanity/image';
 
-export default function BlogPage() {
-  const [searchTerm, setSearchTerm] = useState('');
+// Função para buscar todos os posts do blog no Sanity
+async function fetchBlogPosts() {
+  const query = `*[_type == "post"] | order(publishedAt desc){
+    _id,
+    title,
+    slug,
+    excerpt,
+    mainImage,
+    publishedAt,
+    category->{
+      title
+    }
+  }`;
+  const posts = await client.fetch(query);
+  return posts;
+}
 
-  const filteredPosts = mockBlogPosts.filter(post =>
-    post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    post.excerpt.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+const formatDate = (dateString) => {
+  return new Date(dateString).toLocaleDateString('pt-BR', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+};
 
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('pt-BR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
+export default async function BlogPage() {
+  const posts = await fetchBlogPosts();
 
   return (
     <>
@@ -40,25 +48,18 @@ export default function BlogPage() {
 
       <main className="min-h-screen bg-gray-50 py-12">
         <div className="container mx-auto px-4">
-          <div className="max-w-xl mx-auto mb-10">
-            <SearchBar
-              placeholder="Buscar artigos..."
-              onSearch={setSearchTerm}
-            />
-          </div>
-
-          {filteredPosts.length > 0 ? (
+          {posts.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredPosts.map((post) => (
+              {posts.map((post) => (
                 <article
-                  key={post.id}
+                  key={post._id}
                   className="bg-primary-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
                 >
-                  <Link href={`/blog/${post.slug}`}>
+                  <Link href={`/blog/${post.slug.current}`}>
                     <div className="aspect-video w-full bg-gray-200 relative">
-                      {post.image ? (
+                      {post.mainImage ? (
                         <Image
-                          src={post.image}
+                          src={urlForImage(post.mainImage).url()}
                           alt={post.title}
                           fill
                           className="object-cover"
@@ -73,7 +74,7 @@ export default function BlogPage() {
                     </div>
                     <div className="p-6">
                       <span className="bg-gray-200 text-primary-graphite px-2 py-1 rounded text-xs font-medium mb-2 inline-block">
-                        {post.category}
+                        {post.category?.title}
                       </span>
                       <h2 className="text-xl font-bold text-primary-black mb-2 line-clamp-2 hover:text-secondary-orange transition-colors">
                         {post.title}
@@ -84,7 +85,7 @@ export default function BlogPage() {
                       <div className="flex items-center justify-between text-sm text-primary-graphite">
                         <span>{formatDate(post.publishedAt)}</span>
                         <Button variant="ghost" size="small" asChild>
-                          <Link href={`/blog/${post.slug}`}>
+                          <Link href={`/blog/${post.slug.current}`}>
                             Ler Mais
                           </Link>
                         </Button>
