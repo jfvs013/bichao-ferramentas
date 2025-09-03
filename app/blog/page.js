@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import Button from '@/components/atoms/Button';
-import { client } from '@/lib/sanity/client';
-import { urlForImage } from '@/lib/sanity/image';
+import { client } from '@/lib/sanity';
+import { urlForImage } from '@/lib/sanity';
 
 // Função para buscar todos os posts do blog no Sanity
 async function fetchBlogPosts() {
