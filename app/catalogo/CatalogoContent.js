@@ -1,3 +1,4 @@
+// app/catalogo/CatalogoContent.js
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -6,35 +7,58 @@ import SearchBar from '@/components/atoms/SearchBar';
 import FilterSidebar from '@/components/blocks/FilterSidebar';
 import ProductGrid from '@/components/blocks/ProductGrid';
 import Button from '@/components/atoms/Button';
-import { mockProducts } from '@/lib/mockData';
+import { client } from '@/lib/sanity'; // Importe o cliente Sanity
+import { allProductsQuery, allCategoriesQuery, allBrandsQuery } from '@/lib/queries'; // Importe as queries
 
 export default function CatalogoContent() {
     const searchParams = useSearchParams();
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [brands, setBrands] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [sortBy, setSortBy] = useState('name');
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 12;
 
-    // Simulação de carregamento inicial
+    // Carregamento inicial de todos os dados do Sanity
     useEffect(() => {
-        setTimeout(() => {
-            setProducts(mockProducts);
-            setFilteredProducts(mockProducts);
-            setLoading(false);
-        }, 1000);
+        async function fetchData() {
+            setLoading(true);
+            try {
+                // Busque todos os produtos, categorias e marcas
+                const [productsData, categoriesData, brandsData] = await Promise.all([
+                    client.fetch(allProductsQuery),
+                    client.fetch(allCategoriesQuery),
+                    client.fetch(allBrandsQuery),
+                ]);
+
+                setProducts(productsData);
+                setFilteredProducts(productsData);
+                setCategories(categoriesData);
+                setBrands(brandsData);
+            } catch (error) {
+                console.error("Erro ao buscar dados do Sanity:", error);
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchData();
     }, []);
 
-    // Filtro por categoria via URL
+    // Filtro por categoria via URL (adaptado para o slug)
     useEffect(() => {
-        const categoria = searchParams.get('categoria');
-        if (categoria && products.length > 0) {
+        const categoriaSlug = searchParams.get('categoria');
+        if (categoriaSlug && products.length > 0) {
             const filtered = products.filter(product =>
-                product.category.toLowerCase().includes(categoria.replace('-', ' '))
+                product.category?.slug === categoriaSlug // Acessa o slug aninhado
             );
             setFilteredProducts(filtered);
+            setCurrentPage(1); // Reinicia a paginação
+        } else {
+            // Se não houver categoria na URL, restaura para todos os produtos
+            setFilteredProducts(products);
         }
     }, [searchParams, products]);
 
@@ -52,10 +76,11 @@ export default function CatalogoContent() {
 
         // Filtro por termo de busca
         if (searchTerm) {
+            const lowerCaseTerm = searchTerm.toLowerCase();
             filtered = filtered.filter(product =>
-                product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                product.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                product.brand.toLowerCase().includes(searchTerm.toLowerCase())
+                product.name.toLowerCase().includes(lowerCaseTerm) ||
+                product.category?.name.toLowerCase().includes(lowerCaseTerm) || // Acessa o nome aninhado
+                product.brand?.name.toLowerCase().includes(lowerCaseTerm)       // Acessa o nome aninhado
             );
         }
 
@@ -63,12 +88,12 @@ export default function CatalogoContent() {
         if (filters) {
             if (filters.category?.length > 0) {
                 filtered = filtered.filter(product =>
-                    filters.category.includes(product.category)
+                    filters.category.includes(product.category.name) // Acessa o nome aninhado
                 );
             }
             if (filters.brand?.length > 0) {
                 filtered = filtered.filter(product =>
-                    filters.brand.includes(product.brand)
+                    filters.brand.includes(product.brand.name) // Acessa o nome aninhado
                 );
             }
             if (filters.priceRange) {
@@ -76,11 +101,7 @@ export default function CatalogoContent() {
                 if (min) filtered = filtered.filter(p => p.price >= parseFloat(min));
                 if (max) filtered = filtered.filter(p => p.price <= parseFloat(max));
             }
-            if (filters.inStock) {
-                filtered = filtered.filter(product => product.inStock);
-            }
         }
-
         setFilteredProducts(filtered);
         setCurrentPage(1);
     };
@@ -96,7 +117,7 @@ export default function CatalogoContent() {
                 case 'name':
                     return a.name.localeCompare(b.name);
                 case 'brand':
-                    return a.brand.localeCompare(b.brand);
+                    return a.brand.name.localeCompare(b.brand.name); // Acessa o nome aninhado
                 default:
                     return 0;
             }
@@ -151,6 +172,8 @@ export default function CatalogoContent() {
                                 setSearchTerm('');
                                 setCurrentPage(1);
                             }}
+                            categories={categories}
+                            brands={brands}
                         />
                     </aside>
 

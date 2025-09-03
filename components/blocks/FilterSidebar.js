@@ -1,13 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from '../atoms/Button';
-import Input from '../atoms/Input'; // Importação do componente Input
+import Input from '../atoms/Input';
 
 export default function FilterSidebar({
   filters = {},
   onFiltersChange,
   onClearFilters,
+  categories = [], // Recebe a lista de categorias do componente pai
+  brands = [],     // Recebe a lista de marcas do componente pai
   className = ''
 }) {
   const [activeFilters, setActiveFilters] = useState({
@@ -19,25 +21,15 @@ export default function FilterSidebar({
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const categories = [
-    'Ferramentas Manuais',
-  ];
+  // Atualiza os filtros ativos quando a prop "filters" muda
+  useEffect(() => {
+    setActiveFilters(filters);
+  }, [filters]);
 
-  const brands = [
-    'Bosch',
-    'Makita',
-    'DeWalt',
-    'Black & Decker',
-    'Stanley',
-    'Vonder',
-    'Tramontina',
-    'Irwin'
-  ];
-
-  const handleCategoryChange = (category) => {
-    const newCategories = activeFilters.category.includes(category)
-      ? activeFilters.category.filter(c => c !== category)
-      : [...activeFilters.category, category];
+  const handleCategoryChange = (categoryName) => {
+    const newCategories = activeFilters.category.includes(categoryName)
+      ? activeFilters.category.filter(c => c !== categoryName)
+      : [...activeFilters.category, categoryName];
 
     const newFilters = { ...activeFilters, category: newCategories };
     setActiveFilters(newFilters);
@@ -47,10 +39,10 @@ export default function FilterSidebar({
     }
   };
 
-  const handleBrandChange = (brand) => {
-    const newBrands = activeFilters.brand.includes(brand)
-      ? activeFilters.brand.filter(b => b !== brand)
-      : [...activeFilters.brand, brand];
+  const handleBrandChange = (brandName) => {
+    const newBrands = activeFilters.brand.includes(brandName)
+      ? activeFilters.brand.filter(b => b !== brandName)
+      : [...activeFilters.brand, brandName];
 
     const newFilters = { ...activeFilters, brand: newBrands };
     setActiveFilters(newFilters);
@@ -90,9 +82,6 @@ export default function FilterSidebar({
 
     if (onClearFilters) {
       onClearFilters();
-    }
-    if (onFiltersChange) {
-      onFiltersChange(clearedFilters);
     }
   };
 
@@ -139,15 +128,15 @@ export default function FilterSidebar({
           <h4 className="font-medium text-primary-black mb-3">Categoria</h4>
           <div className="space-y-2">
             {categories.map((category) => (
-              <label key={category} className="flex items-center cursor-pointer">
+              <label key={category.name} className="flex items-center cursor-pointer">
                 <input
                   type="checkbox"
-                  checked={activeFilters.category.includes(category)}
-                  onChange={() => handleCategoryChange(category)}
+                  checked={activeFilters.category.includes(category.name)}
+                  onChange={() => handleCategoryChange(category.name)}
                   className="mr-2 text-secondary-orange focus:ring-secondary-orange"
                 />
                 <span className="text-sm text-primary-graphite hover:text-primary-black">
-                  {category}
+                  {category.name}
                 </span>
               </label>
             ))}
@@ -159,15 +148,15 @@ export default function FilterSidebar({
           <h4 className="font-medium text-primary-black mb-3">Marca</h4>
           <div className="space-y-2">
             {brands.map((brand) => (
-              <label key={brand} className="flex items-center cursor-pointer">
+              <label key={brand.name} className="flex items-center cursor-pointer">
                 <input
                   type="checkbox"
-                  checked={activeFilters.brand.includes(brand)}
-                  onChange={() => handleBrandChange(brand)}
+                  checked={activeFilters.brand.includes(brand.name)}
+                  onChange={() => handleBrandChange(brand.name)}
                   className="mr-2 text-secondary-orange focus:ring-secondary-orange"
                 />
                 <span className="text-sm text-primary-graphite hover:text-primary-black">
-                  {brand}
+                  {brand.name}
                 </span>
               </label>
             ))}
@@ -178,7 +167,6 @@ export default function FilterSidebar({
         <div className="mb-6">
           <h4 className="font-medium text-primary-black mb-3">Faixa de Preço</h4>
           <div className="flex gap-2">
-            {/* Uso do componente Input para o campo de preço mínimo */}
             <Input
               type="number"
               placeholder="Min"
@@ -186,7 +174,6 @@ export default function FilterSidebar({
               onChange={(e) => handlePriceChange('min', e.target.value)}
               className="flex-1"
             />
-            {/* Uso do componente Input para o campo de preço máximo */}
             <Input
               type="number"
               placeholder="Max"

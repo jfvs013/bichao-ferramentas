@@ -1,3 +1,4 @@
+// app/blog/page.js
 'use client';
 
 import { useState } from 'react';
@@ -26,10 +27,10 @@ export default function BlogPage() {
   return (
     <>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-[#060d14] via-[#c4bcbcfa] to-[#ff6600] text-primary-white py-20">
+      <section className="bg-gradient-to-r from-primary-black via-primary-graphite to-secondary-orange text-primary-white py-20">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-5xl font-bold mb-6">
-            Nosso <span className="text-[#ff9900]">Blog</span>
+            Nosso <span className="text-secondary-orange">Blog</span>
           </h1>
           <p className="text-xl max-w-3xl mx-auto leading-relaxed">
             Artigos, dicas e novidades sobre o universo das ferramentas.
@@ -70,28 +71,26 @@ export default function BlogPage() {
                         </div>
                       )}
                     </div>
-                  </Link>
-                  <div className="p-6">
-                    <span className="bg-gray-200 text-primary-graphite px-2 py-1 rounded text-xs font-medium mb-2 inline-block">
-                      {post.category}
-                    </span>
-                    <h2 className="text-xl font-bold text-primary-black mb-2 line-clamp-2">
-                      <Link href={`/blog/${post.slug}`} className="hover:text-secondary-orange transition-colors">
+                    <div className="p-6">
+                      <span className="bg-gray-200 text-primary-graphite px-2 py-1 rounded text-xs font-medium mb-2 inline-block">
+                        {post.category}
+                      </span>
+                      <h2 className="text-xl font-bold text-primary-black mb-2 line-clamp-2 hover:text-secondary-orange transition-colors">
                         {post.title}
-                      </Link>
-                    </h2>
-                    <p className="text-primary-graphite text-sm mb-4 line-clamp-3">
-                      {post.excerpt}
-                    </p>
-                    <div className="flex items-center justify-between text-sm text-primary-graphite">
-                      <span>{formatDate(post.publishedAt)}</span>
-                      <Button variant="ghost" size="small">
-                        <Link href={`/blog/${post.slug}`}>
-                          Ler Mais
-                        </Link>
-                      </Button>
+                      </h2>
+                      <p className="text-primary-graphite text-sm mb-4 line-clamp-3">
+                        {post.excerpt}
+                      </p>
+                      <div className="flex items-center justify-between text-sm text-primary-graphite">
+                        <span>{formatDate(post.publishedAt)}</span>
+                        <Button variant="ghost" size="small" asChild>
+                          <Link href={`/blog/${post.slug}`}>
+                            Ler Mais
+                          </Link>
+                        </Button>
+                      </div>
                     </div>
-                  </div>
+                  </Link>
                 </article>
               ))}
             </div>

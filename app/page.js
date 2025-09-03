@@ -1,52 +1,53 @@
-// app/page.js
 'use client';
 
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import ProductGrid from '@/components/blocks/ProductGrid';
 import Button from '@/components/atoms/Button';
-import Image from 'next/image';
-import { mockProducts, mockCategories, mockBanners } from '@/lib/mockData';
 
-export default function Home() {
-  const [featuredProducts, setFeaturedProducts] = useState([]);
-  const [bestSellers, setBestSellers] = useState([]);
+// Nota: Este componente agora espera receber os dados (produtos e categorias)
+// como props, em vez de usar dados mockados ou buscar internamente.
+// Isso torna o componente mais flexível e reutilizável.
+export default function Home({
+  featuredProducts = [],
+  bestSellers = [],
+  categories = []
+}) {
 
-  useEffect(() => {
-    setFeaturedProducts(mockProducts.slice(0, 4));
-    setBestSellers(mockProducts.filter(product => product.discount).slice(0, 6));
-  }, []);
-
+  // As funções de manipulação de eventos podem ser mantidas, mas aqui
+  // apenas servem como placeholders. Em uma aplicação real, elas
+  // executariam lógicas como adicionar ao carrinho ou redirecionar.
   const handleAddToList = (product) => {
-    console.log('Adicionar à lista:', product);
+    // Lógica para adicionar o produto à lista (ex: carrinho de compras)
+    console.log('Adicionar à lista:', product.name);
   };
 
   const handleViewDetails = (product) => {
-    console.log('Ver detalhes:', product);
+    // Lógica para visualizar os detalhes do produto
+    console.log('Ver detalhes:', product.name);
   };
 
   return (
-    <div className="min-h-screen bg-[#121212] text-white transition-colors duration-500">
+    <div className="min-h-screen bg-primary-black text-white transition-colors duration-500">
       {/* Seção da Logo e Título - Fundo branco e largura total */}
-      <section className="w-full bg-white py-12 flex flex-col items-center justify-center">
-        <div className="text-center w-full"> {/* Adicionado w-full para o container de texto */}
-          <div className="flex justify-center w-full"> {/* Nova div para centralizar a imagem */}
+      <section className="w-full bg-primary-white py-12 flex flex-col items-center justify-center">
+        <div className="text-center w-full">
+          <div className="flex justify-center w-full">
             <Image
               src="/images/logoBichaoFerramentasBG.png"
               alt="Logo Bichão Ferramentas"
               width={300}
               height={150}
-              objectFit="contain"
             />
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold mt-4 mb-4 text-[#121212]">
-            Ferramentas <span className="text-[#ff6600]">Profissionais</span>
+          <h1 className="text-4xl md:text-5xl font-bold mt-4 mb-4 text-primary-black">
+            Ferramentas <span className="text-secondary-orange">Profissionais</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-700 max-w-2xl mx-auto mb-8">
             Encontre tudo que precisa para seus projetos com os melhores preços
           </p>
           <Link href="/catalogo">
-            <Button className="bg-[#ff6600] text-white px-8 py-4 rounded-lg hover:bg-orange-600 transition-colors">
+            <Button className="bg-secondary-orange text-white px-8 py-4 rounded-lg hover:bg-secondary-orange transition-colors">
               Ver Catálogo
             </Button>
           </Link>
@@ -54,26 +55,26 @@ export default function Home() {
       </section>
 
       {/* Seção de Categorias Principais - Fundo cinza escuro */}
-      <section className="w-full bg-[#2C2C2C] py-20 text-white transition-colors duration-500">
+      <section className="w-full bg-primary-graphite py-20 text-white transition-colors duration-500">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">
-            Explore Nossas <span className="text-[#ff6600]">Categorias</span>
+            Explore Nossas <span className="text-secondary-orange">Categorias</span>
           </h2>
           <p className="text-lg text-gray-300 max-w-2xl mx-auto">
             Encontre exatamente o que precisa para seus projetos
           </p>
         </div>
         <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
-          {mockCategories.map((category) => (
+          {categories.map((category) => (
             <Link
               key={category.id}
               href={`/catalogo?categoria=${category.slug}`}
               className="group"
             >
-              <div className="bg-[#FFFFFF] rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden transform group-hover:scale-105">
+              <div className="bg-primary-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden transform group-hover:scale-105">
                 <div className="aspect-square bg-gradient-to-br from-[#CFAF5F] to-[#8C7A3E] p-8 flex items-center justify-center">
                   <div className="text-center text-white">
-                    <div className="w-16 h-16 mx-auto mb-4 bg-[#ff6600] rounded-full flex items-center justify-center">
+                    <div className="w-16 h-16 mx-auto mb-4 bg-secondary-orange rounded-full flex items-center justify-center">
                       <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
                       </svg>
@@ -82,7 +83,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div className="p-4">
-                  <p className="text-[#121212] text-sm text-center group-hover:text-[#CFAF5F] transition-colors">
+                  <p className="text-primary-black text-sm text-center group-hover:text-[#CFAF5F] transition-colors">
                     {category.description}
                   </p>
                 </div>
@@ -93,11 +94,11 @@ export default function Home() {
       </section>
 
       {/* Seção de Produtos Mais Vendidos - Fundo branco */}
-      <section className="w-full bg-white py-20 text-[#121212]">
+      <section className="w-full bg-primary-white py-20 text-primary-black">
         <div className="container mx-auto px-4 mb-16">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold mb-4">
-              Mais <span className="text-[#ff6600]">Vendidos</span>
+              Mais <span className="text-secondary-orange">Vendidos</span>
             </h2>
             <p className="text-lg text-gray-700 max-w-2xl mx-auto">
               Os produtos preferidos dos nossos clientes
@@ -120,15 +121,15 @@ export default function Home() {
       </section>
 
       {/* Seção de Destaques - Fundo cinza escuro */}
-      <section className="w-full bg-[#2C2C2C] py-20 transition-colors duration-500 text-white">
+      <section className="w-full bg-primary-graphite py-20 transition-colors duration-500 text-white">
         <div className="container mx-auto px-4 flex flex-col items-center">
           <div className="text-center">
             <h2 className="text-3xl font-bold mb-6">
-              Por que escolher a <span className="text-[#ff6600]">Bichão Ferramentas</span>?
+              Por que escolher a <span className="text-secondary-orange">Bichão Ferramentas</span>?
             </h2>
             <div className="space-y-6 max-w-2xl mx-auto">
               <div className="flex items-start space-x-4 text-left">
-                <div className="w-12 h-12 bg-[#ff6600] rounded-lg flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 bg-secondary-orange rounded-lg flex items-center justify-center flex-shrink-0">
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
@@ -139,7 +140,7 @@ export default function Home() {
                 </div>
               </div>
               <div className="flex items-start space-x-4 text-left">
-                <div className="w-12 h-12 bg-[#ff6600] rounded-lg flex items-center justify-center flex-shrink-0">
+                <div className="w-12 h-12 bg-secondary-orange rounded-lg flex items-center justify-center flex-shrink-0">
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
                   </svg>
@@ -150,7 +151,7 @@ export default function Home() {
                 </div>
               </div>
               <div className="flex items-start space-x-4 text-left">
-                <div className="w-12 h-12 bg-[#ff6600] rounded-lg flex items-center justify-center flex-shrink-0 border border-[#CFAF5F]">
+                <div className="w-12 h-12 bg-secondary-orange rounded-lg flex items-center justify-center flex-shrink-0 border border-[#CFAF5F]">
                   <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4m0 0L7 13m0 0l-1.5 1.5M7 13l1.5 1.5M17 21a2 2 0 100-4 2 2 0 000 4zM9 21a2 2 0 100-4 2 2 0 000 4z" />
                   </svg>
@@ -166,7 +167,7 @@ export default function Home() {
       </section>
 
       {/* Seção de Produtos em Destaque - Fundo Branco */}
-      <section className="w-full bg-white py-20 text-[#121212]">
+      <section className="w-full bg-primary-white py-20 text-primary-black">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold mb-4">
@@ -196,7 +197,7 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/catalogo">
-              <Button variant="primary" size="large">
+              <Button variant="primary" size="large" className="bg-secondary-orange">
                 Ver Catálogo Completo
               </Button>
             </Link>

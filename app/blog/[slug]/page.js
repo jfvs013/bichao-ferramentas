@@ -1,53 +1,36 @@
-'use client';
+// app/blog/[slug]/page.js
 
-import { useState, useEffect } from 'react';
-import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import Button from '@/components/atoms/Button';
 import { mockBlogPosts } from '@/lib/mockData';
 
-export default function BlogPostPage() {
-  const params = useParams();
-  const [post, setPost] = useState(null);
-  const [relatedPosts, setRelatedPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
+// Funções de busca de dados assíncronas
+async function fetchBlogPostBySlug(slug) {
+  // Simulação de busca no banco de dados
+  const post = mockBlogPosts.find(p => p.slug === slug) || null;
+  return post;
+}
 
-  useEffect(() => {
-    // Simular busca do post pelo slug
-    setTimeout(() => {
-      // Para demonstração, vamos usar o primeiro post
-      const foundPost = mockBlogPosts[0];
-      setPost(foundPost);
+async function fetchRelatedPosts(category, currentPostId) {
+  // Simulação de busca por posts relacionados
+  const related = mockBlogPosts
+    .filter(p => p.id !== currentPostId && p.category === category)
+    .slice(0, 3);
+  return related;
+}
 
-      // Posts relacionados da mesma categoria
-      const related = mockBlogPosts
-        .filter(p => p.id !== foundPost.id && p.category === foundPost.category)
-        .slice(0, 3);
-      setRelatedPosts(related);
+const formatDate = (dateString) => {
+  return new Date(dateString).toLocaleDateString('pt-BR', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+};
 
-      setLoading(false);
-    }, 1000);
-  }, [params.slug]);
-
-  const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('pt-BR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-secondary-orange mx-auto mb-4"></div>
-          <p className="text-primary-graphite">Carregando post...</p>
-        </div>
-      </div>
-    );
-  }
+export default async function BlogPostPage({ params }) {
+  const post = await fetchBlogPostBySlug(params.slug);
+  const relatedPosts = post ? await fetchRelatedPosts(post.category, post.id) : [];
 
   if (!post) {
     return (
@@ -62,7 +45,6 @@ export default function BlogPostPage() {
     );
   }
 
-  // Conteúdo expandido do post para demonstração
   const fullContent = `
     <p>Este é um exemplo de conteúdo completo do post sobre ${post.title.toLowerCase()}. O conteúdo seria carregado dinamicamente do backend em uma implementação real.</p>
     
@@ -183,15 +165,6 @@ export default function BlogPostPage() {
               </svg>
               <span>Voltar ao Blog</span>
             </Link>
-
-            <div className="flex space-x-4">
-              <Button variant="outline" size="small">
-                ← Post Anterior
-              </Button>
-              <Button variant="outline" size="small">
-                Próximo Post →
-              </Button>
-            </div>
           </div>
         </div>
       </article>
@@ -207,44 +180,46 @@ export default function BlogPostPage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
               {relatedPosts.map((relatedPost) => (
                 <article key={relatedPost.id} className="bg-gray-50 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                  <div className="aspect-video bg-gray-200">
-                    {relatedPost.image ? (
-                      <Image
-                        src={relatedPost.image}
-                        alt={relatedPost.title}
-                        width={400}
-                        height={250}
-                        className="w-full h-full object-cover"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-secondary-orange to-accent-green text-primary-white">
-                        <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                        </svg>
-                      </div>
-                    )}
-                  </div>
-                  <div className="p-6">
-                    <div className="flex items-center space-x-2 mb-3">
-                      <span className="bg-gray-200 text-primary-graphite px-2 py-1 rounded text-xs font-medium">
-                        {relatedPost.category}
-                      </span>
-                      <span className="text-primary-graphite text-xs">
-                        {formatDate(relatedPost.publishedAt)}
-                      </span>
+                  <Link href={`/blog/${relatedPost.slug}`}>
+                    <div className="aspect-video bg-gray-200">
+                      {relatedPost.image ? (
+                        <Image
+                          src={relatedPost.image}
+                          alt={relatedPost.title}
+                          width={400}
+                          height={250}
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-secondary-orange to-accent-green text-primary-white">
+                          <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                          </svg>
+                        </div>
+                      )}
                     </div>
-                    <h3 className="text-lg font-semibold text-primary-black mb-3 line-clamp-2">
-                      {relatedPost.title}
-                    </h3>
-                    <p className="text-primary-graphite text-sm mb-4 line-clamp-3">
-                      {relatedPost.excerpt}
-                    </p>
-                    <Link href={`/blog/${relatedPost.slug}`}>
-                      <Button variant="ghost" size="small">
-                        Ler Artigo
+                    <div className="p-6">
+                      <div className="flex items-center space-x-2 mb-3">
+                        <span className="bg-gray-200 text-primary-graphite px-2 py-1 rounded text-xs font-medium">
+                          {relatedPost.category}
+                        </span>
+                        <span className="text-primary-graphite text-xs">
+                          {formatDate(relatedPost.publishedAt)}
+                        </span>
+                      </div>
+                      <h3 className="text-lg font-semibold text-primary-black mb-3 line-clamp-2">
+                        {relatedPost.title}
+                      </h3>
+                      <p className="text-primary-graphite text-sm mb-4 line-clamp-3">
+                        {relatedPost.excerpt}
+                      </p>
+                      <Button variant="ghost" size="small" asChild>
+                        <Link href={`/blog/${relatedPost.slug}`}>
+                          Ler Artigo
+                        </Link>
                       </Button>
-                    </Link>
-                  </div>
+                    </div>
+                  </Link>
                 </article>
               ))}
             </div>
@@ -254,4 +229,3 @@ export default function BlogPostPage() {
     </div>
   );
 }
-
