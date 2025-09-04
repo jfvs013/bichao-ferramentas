@@ -1,18 +1,18 @@
 import Image from 'next/image';
 import Button from '../atoms/Button';
 
-export default function ProductCard({ 
+export default function ProductCard({
   product,
   onAddToList,
   onViewDetails,
   className = ''
 }) {
   const {
-    id,
+    _id,
     name,
     price,
-    originalPrice,
-    image,
+    discountPrice,
+    images = [],
     category,
     brand,
     inStock = true,
@@ -38,13 +38,16 @@ export default function ProductCard({
     }).format(price);
   };
 
+  // Pega a primeira imagem se existir
+  const productImage = Array.isArray(images) && images.length > 0 ? images[0] : null;
+
   return (
     <div className={`bg-primary-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden border border-gray-200 ${className}`}>
       {/* Imagem do Produto */}
       <div className="relative aspect-square bg-gray-100">
-        {image ? (
+        {productImage ? (
           <Image
-            src={image}
+            src={productImage}
             alt={name}
             fill
             className="object-cover"
@@ -57,14 +60,14 @@ export default function ProductCard({
             </svg>
           </div>
         )}
-        
+
         {/* Badge de Desconto */}
         {discount && (
           <div className="absolute top-2 left-2 bg-secondary-orange text-primary-white px-2 py-1 rounded-md text-sm font-semibold">
             -{discount}%
           </div>
         )}
-        
+
         {/* Badge de Estoque */}
         {!inStock && (
           <div className="absolute top-2 right-2 bg-red-500 text-primary-white px-2 py-1 rounded-md text-sm font-semibold">
@@ -77,20 +80,23 @@ export default function ProductCard({
       <div className="p-4">
         {/* Categoria e Marca */}
         <div className="flex justify-between items-center mb-2">
-          {category && (
+          {category?.name && (
             <span className="text-xs text-primary-graphite bg-gray-100 px-2 py-1 rounded">
-              {category}
+              {category.name}
             </span>
           )}
-          {brand && (
+          {brand?.name && (
             <span className="text-xs text-secondary-gold font-semibold">
-              {brand}
+              {brand.name}
             </span>
           )}
         </div>
 
         {/* Nome do Produto */}
-        <h3 className="font-semibold text-primary-black mb-2 line-clamp-2 hover:text-secondary-orange transition-colors cursor-pointer" onClick={handleViewDetails}>
+        <h3
+          className="font-semibold text-primary-black mb-2 line-clamp-2 hover:text-secondary-orange transition-colors cursor-pointer"
+          onClick={handleViewDetails}
+        >
           {name}
         </h3>
 
@@ -100,9 +106,9 @@ export default function ProductCard({
             <span className="text-xl font-bold text-secondary-orange">
               {formatPrice(price)}
             </span>
-            {originalPrice && originalPrice > price && (
+            {discountPrice && discountPrice > price && (
               <span className="text-sm text-gray-500 line-through">
-                {formatPrice(originalPrice)}
+                {formatPrice(discountPrice)}
               </span>
             )}
           </div>
@@ -135,4 +141,3 @@ export default function ProductCard({
     </div>
   );
 }
-
