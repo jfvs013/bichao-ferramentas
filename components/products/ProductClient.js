@@ -19,12 +19,12 @@ export default function ProductClient({ product, formatPrice }) {
         // Implementar lógica de compra
     };
 
-    // Simular múltiplas imagens do produto
+    // Usa imageUrl da query (fallback para evitar undefined)
     const productImages = [
-        product.image,
-        product.image,
-        product.image
-    ];
+        product.imageUrl,
+        product.imageUrl,
+        product.imageUrl
+    ].filter(Boolean);
 
     return (
         <div className="container mx-auto px-4 py-8">
@@ -58,21 +58,13 @@ export default function ProductClient({ product, formatPrice }) {
                                 onClick={() => setSelectedImage(index)}
                                 className={`w-20 h-20 rounded-lg overflow-hidden border-2 ${selectedImage === index ? 'border-secondary-orange' : 'border-gray-200'}`}
                             >
-                                {image ? (
-                                    <Image
-                                        src={image}
-                                        alt={`${product.name} - Imagem ${index + 1}`}
-                                        width={80}
-                                        height={80}
-                                        className="w-full h-full object-cover"
-                                    />
-                                ) : (
-                                    <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                                        <svg className="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                        </svg>
-                                    </div>
-                                )}
+                                <Image
+                                    src={image}
+                                    alt={`${product.name} - Imagem ${index + 1}`}
+                                    width={80}
+                                    height={80}
+                                    className="w-full h-full object-cover"
+                                />
                             </button>
                         ))}
                     </div>
@@ -83,11 +75,13 @@ export default function ProductClient({ product, formatPrice }) {
                     {/* Categoria e Marca */}
                     <div className="flex items-center space-x-4 mb-4">
                         <span className="bg-gray-100 text-primary-graphite px-3 py-1 rounded-full text-sm">
-                            {product.category}
+                            {product.categoryTitle || 'Sem categoria'}
                         </span>
-                        <span className="text-secondary-gold font-semibold">
-                            {product.brand}
-                        </span>
+                        {product.brand && (
+                            <span className="text-secondary-gold font-semibold">
+                                {product.brand}
+                            </span>
+                        )}
                     </div>
 
                     {/* Nome do Produto */}
@@ -99,7 +93,7 @@ export default function ProductClient({ product, formatPrice }) {
                     <div className="mb-6">
                         <div className="flex items-center space-x-4 mb-2">
                             <span className="text-4xl font-bold text-secondary-orange">
-                                {formatPrice(product.price)}
+                                {formatPrice(product.price || 0)}
                             </span>
                             {product.originalPrice && product.originalPrice > product.price && (
                                 <span className="text-xl text-gray-500 line-through">
@@ -134,12 +128,14 @@ export default function ProductClient({ product, formatPrice }) {
                     </div>
 
                     {/* Descrição */}
-                    <div className="mb-6">
-                        <h3 className="text-lg font-semibold text-primary-black mb-2">Descrição</h3>
-                        <p className="text-primary-graphite leading-relaxed">
-                            {product.description}
-                        </p>
-                    </div>
+                    {product.description && (
+                        <div className="mb-6">
+                            <h3 className="text-lg font-semibold text-primary-black mb-2">Descrição</h3>
+                            <p className="text-primary-graphite leading-relaxed">
+                                {product.description}
+                            </p>
+                        </div>
+                    )}
 
                     {/* Controles de Compra */}
                     <div className="mb-8">
@@ -221,17 +217,19 @@ export default function ProductClient({ product, formatPrice }) {
             </div>
 
             {/* Especificações Técnicas */}
-            <div className="bg-primary-white rounded-lg shadow-md p-6 mb-16">
-                <h2 className="text-2xl font-bold text-primary-black mb-6">Especificações Técnicas</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {Object.entries(product.specifications).map(([key, value]) => (
-                        <div key={key} className="flex justify-between items-center py-2 border-b border-gray-200 last:border-b-0">
-                            <span className="font-medium text-primary-graphite">{key}:</span>
-                            <span className="text-primary-black">{value}</span>
-                        </div>
-                    ))}
+            {product.specifications && (
+                <div className="bg-primary-white rounded-lg shadow-md p-6 mb-16">
+                    <h2 className="text-2xl font-bold text-primary-black mb-6">Especificações Técnicas</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {Object.entries(product.specifications).map(([key, value]) => (
+                            <div key={key} className="flex justify-between items-center py-2 border-b border-gray-200 last:border-b-0">
+                                <span className="font-medium text-primary-graphite">{key}:</span>
+                                <span className="text-primary-black">{value}</span>
+                            </div>
+                        ))}
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 }

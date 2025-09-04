@@ -6,15 +6,14 @@ import Image from 'next/image';
 import SearchBar from '../atoms/SearchBar';
 import Button from '../atoms/Button';
 import { searchProducts } from '../utils/searchProducts';
-import { getCategories } from '../utils/getCategories'; // Importe a nova função
+import { getCategories } from '../utils/getCategories';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
-  const [categories, setCategories] = useState([]); // Novo estado para as categorias
+  const [categories, setCategories] = useState([]);
 
-  // Busca as categorias quando o componente é carregado
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -25,7 +24,7 @@ export default function Header() {
       }
     };
     fetchCategories();
-  }, []); // Array de dependências vazio para rodar apenas uma vez
+  }, []);
 
   const navigationLinks = [
     { href: '/', label: 'Início' },
@@ -205,7 +204,7 @@ export default function Header() {
                 {categories.map((category) => (
                   <Link
                     key={category._id}
-                    href={`/catalogo?categoria=${category.slug.current}`}
+                    href={`/catalogo?categoria=${category.slug?.current || ''}`}
                     className="block px-4 py-2 text-primary-graphite hover:bg-gray-100 hover:text-secondary-orange"
                     onClick={handleLinkClick}
                   >
@@ -238,7 +237,7 @@ export default function Header() {
                 {categories.map((category) => (
                   <Link
                     key={category._id}
-                    href={`/catalogo?categoria=${category.slug.current}`}
+                    href={`/catalogo?categoria=${category.slug?.current || ''}`}
                     className="block px-4 py-2 text-primary-graphite hover:bg-gray-100 hover:text-secondary-orange"
                     onClick={handleLinkClick}
                   >
