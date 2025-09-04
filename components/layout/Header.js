@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import SearchBar from '../atoms/SearchBar';
 import Button from '../atoms/Button';
-import { searchProducts } from '@/utils/searchProducts'; // Importe a função de busca
+import { searchProducts } from '../utils/searchProducts'; // Importe a função de busca
 import { urlForImage } from '@/lib/sanity'; // Certifique-se de ter esta função para URLs de imagens
 
 export default function Header() {
