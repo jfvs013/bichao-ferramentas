@@ -1,31 +1,45 @@
 // components/utils/searchProducts.js
+
 import { groq } from 'next-sanity';
-import { client } from '../../lib/sanity.js'; // Ajuste o caminho conforme necessário
+import { client } from '../../lib/sanity.js';
 
 export const searchProducts = async (searchTerm) => {
   if (!searchTerm) {
     return [];
   }
 
-  // A consulta GROQ busca por título, slug e descrição, ignorando maiúsculas e minúsculas
   const query = groq`
     *[_type == "product" && (
-      title match $searchTerm + "*" ||
+      name match $searchTerm + "*" ||
       slug.current match $searchTerm + "*" ||
       description match $searchTerm + "*"
     )] {
       _id,
-      title,
+      name, // <-- CORRIGIDO
       "slug": slug.current,
-      mainImage {
-        asset->{
-          url
-        }
-      }
+      "imageUrl": images[0].asset->url, // <-- Adicionado para consistência
+      price
     }
   `;
 
-  // Use a função client.fetch para executar a consulta
   const results = await client.fetch(query, { searchTerm });
   return results;
+};
+
+// app/components/utils/getCategories.js
+
+import { groq } from 'next-sanity';
+import { client } from '../../lib/sanity';
+
+export const getCategories = async () => {
+  const query = groq`
+      *[_type == "category"] {
+        _id,
+        name, // <-- CORRIGIDO
+        "slug": slug.current,
+        description
+      }
+    `;
+  const categories = await client.fetch(query);
+  return categories;
 };
