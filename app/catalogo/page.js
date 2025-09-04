@@ -1,22 +1,27 @@
 // app/catalogo/page.js
-import { Suspense } from 'react';
 import CatalogoContent from './CatalogoContent';
+import { client } from '@/lib/sanity';
+import { allProductsQuery, allCategoriesQuery, allBrandsQuery } from '@/lib/queries';
 
-// Exportações de metadata e viewport corrigidas
 export const metadata = {
   title: 'Catálogo de Produtos',
   description: 'Explore nosso catálogo completo de ferramentas e equipamentos profissionais.',
 };
 
-export const viewport = {
-  width: 'device-width',
-  initialScale: 1,
-};
+export default async function CatalogoPage() {
+  // 1. Busque os dados no servidor, antes de renderizar
+  const [productsData, categoriesData, brandsData] = await Promise.all([
+    client.fetch(allProductsQuery),
+    client.fetch(allCategoriesQuery),
+    client.fetch(allBrandsQuery),
+  ]);
 
-export default function CatalogoPage() {
+  // 2. Passe os dados para o Client Component
   return (
-    <Suspense fallback={<div>Carregando catálogo...</div>}>
-      <CatalogoContent />
-    </Suspense>
+    <CatalogoContent
+      initialProducts={productsData || []}
+      initialCategories={categoriesData || []}
+      initialBrands={brandsData || []}
+    />
   );
 }
