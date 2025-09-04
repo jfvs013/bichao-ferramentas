@@ -32,12 +32,18 @@ export default function CatalogoContent() {
                     client.fetch(allBrandsQuery),
                 ]);
 
-                setProducts(productsData);
-                setFilteredProducts(productsData);
-                setCategories(categoriesData);
-                setBrands(brandsData);
+                // Assegure que as variáveis de estado sejam arrays, mesmo que a requisição retorne null ou undefined
+                setProducts(productsData || []);
+                setFilteredProducts(productsData || []);
+                setCategories(categoriesData || []);
+                setBrands(brandsData || []);
             } catch (error) {
                 console.error("Erro ao buscar dados do Sanity:", error);
+                // Em caso de falha, defina os estados como arrays vazios para evitar erros de renderização
+                setProducts([]);
+                setFilteredProducts([]);
+                setCategories([]);
+                setBrands([]);
             } finally {
                 setLoading(false);
             }
@@ -74,20 +80,20 @@ export default function CatalogoContent() {
             const lowerCaseTerm = searchTerm.toLowerCase();
             filtered = filtered.filter(product =>
                 product.name.toLowerCase().includes(lowerCaseTerm) ||
-                product.category?.name.toLowerCase().includes(lowerCaseTerm) ||
-                product.brand?.name.toLowerCase().includes(lowerCaseTerm)
+                product.category?.name?.toLowerCase().includes(lowerCaseTerm) || // Adicionei verificação de name
+                product.brand?.name?.toLowerCase().includes(lowerCaseTerm) // Adicionei verificação de name
             );
         }
 
         if (filters) {
             if (filters.category?.length > 0) {
                 filtered = filtered.filter(product =>
-                    filters.category.includes(product.category.name)
+                    filters.category.includes(product.category?.name)
                 );
             }
             if (filters.brand?.length > 0) {
                 filtered = filtered.filter(product =>
-                    filters.brand.includes(product.brand.name)
+                    filters.brand.includes(product.brand?.name)
                 );
             }
             if (filters.priceRange) {
@@ -105,13 +111,15 @@ export default function CatalogoContent() {
         const sorted = [...filteredProducts].sort((a, b) => {
             switch (newSortBy) {
                 case 'price-asc':
-                    return a.price - b.price;
+                    return (a.price || 0) - (b.price || 0); // Trata valores nulos
                 case 'price-desc':
-                    return b.price - a.price;
+                    return (b.price || 0) - (a.price || 0); // Trata valores nulos
                 case 'name':
-                    return a.name.localeCompare(b.name);
+                    // Adicionei tratamento para nomes nulos ou undefined
+                    return (a.name || '').localeCompare(b.name || '');
                 case 'brand':
-                    return a.brand.name.localeCompare(b.brand.name);
+                    // Adicionei tratamento para nomes de marcas nulos ou undefined
+                    return (a.brand?.name || '').localeCompare(b.brand?.name || '');
                 default:
                     return 0;
             }
