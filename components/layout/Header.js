@@ -1,4 +1,3 @@
-// components/layout/Header.js
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -6,13 +5,27 @@ import Link from 'next/link';
 import Image from 'next/image';
 import SearchBar from '../atoms/SearchBar';
 import Button from '../atoms/Button';
-import { searchProducts } from '../utils/searchProducts'; // Importe a função de busca
-import { urlForImage } from '@/lib/sanity'; // Certifique-se de ter esta função para URLs de imagens
+import { searchProducts } from '../utils/searchProducts';
+import { getCategories } from '../utils/getCategories'; // Importe a nova função
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [showResults, setShowResults] = useState(false);
+  const [categories, setCategories] = useState([]); // Novo estado para as categorias
+
+  // Busca as categorias quando o componente é carregado
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const fetchedCategories = await getCategories();
+        setCategories(fetchedCategories);
+      } catch (error) {
+        console.error("Erro ao buscar categorias:", error);
+      }
+    };
+    fetchCategories();
+  }, []); // Array de dependências vazio para rodar apenas uma vez
 
   const navigationLinks = [
     { href: '/', label: 'Início' },
@@ -31,12 +44,11 @@ export default function Header() {
     const results = await searchProducts(searchTerm);
     setSearchResults(results);
     setShowResults(true);
-    console.log('Resultados da busca:', results);
   };
 
   const handleLinkClick = () => {
     setShowResults(false);
-    setIsMenuOpen(false); // Fecha o menu mobile ao navegar
+    setIsMenuOpen(false);
   };
 
   const handleFocus = () => {
@@ -44,7 +56,6 @@ export default function Header() {
   };
 
   const handleBlur = () => {
-    // Pequeno atraso para permitir que o clique no link seja processado
     setTimeout(() => {
       setShowResults(false);
     }, 200);
@@ -52,7 +63,6 @@ export default function Header() {
 
   return (
     <header className="bg-primary-white shadow-md sticky top-0 z-40">
-      {/* Barra Superior */}
       <div className="bg-primary-black text-primary-white py-2">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center text-sm">
@@ -69,10 +79,8 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Header Principal */}
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo */}
           <Link href="/" className="flex items-center space-x-2" onClick={handleLinkClick}>
             <Image
               src="/images/logoBichaoFerramentasBG.png"
@@ -89,7 +97,6 @@ export default function Header() {
             </div>
           </Link>
 
-          {/* Barra de Busca - Desktop */}
           <div className="hidden lg:block flex-1 max-w-2xl mx-8 relative">
             <SearchBar
               placeholder="Buscar ferramentas, equipamentos..."
@@ -121,7 +128,6 @@ export default function Header() {
             )}
           </div>
 
-          {/* Ações do Header */}
           <div className="flex items-center space-x-4">
             <Button variant="ghost" className="hidden md:flex items-center space-x-1">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -141,7 +147,6 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Barra de Busca - Mobile */}
         <div className="lg:hidden mt-4 relative">
           <SearchBar
             placeholder="Buscar ferramentas..."
@@ -175,7 +180,6 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Navegação Principal - Desktop */}
       <nav className="hidden lg:block bg-primary-graphite">
         <div className="container mx-auto px-4">
           <div className="flex items-center space-x-8 py-3">
@@ -189,7 +193,7 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
-
+            {/* Dropdown de categorias */}
             <div className="relative group">
               <button className="text-primary-white hover:text-secondary-orange transition-colors font-medium flex items-center">
                 Categorias
@@ -197,20 +201,25 @@ export default function Header() {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
-
               <div className="absolute top-full left-0 bg-primary-white shadow-lg rounded-md py-2 w-64 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                <Link href="/catalogo?categoria=ferramentas-manuais" className="block px-4 py-2 text-primary-graphite hover:bg-gray-100 hover:text-secondary-orange" onClick={handleLinkClick}>
-                  Ferramentas Manuais
-                </Link>
+                {categories.map((category) => (
+                  <Link
+                    key={category._id}
+                    href={`/catalogo?categoria=${category.slug}`}
+                    className="block px-4 py-2 text-primary-graphite hover:bg-gray-100 hover:text-secondary-orange"
+                    onClick={handleLinkClick}
+                  >
+                    {category.title}
+                  </Link>
+                ))}
               </div>
             </div>
           </div>
         </div>
       </nav>
 
-      {/* Menu Mobile */}
-      {isMenuOpen && (
-        <div className="lg:hidden bg-primary-white border-t">
+      <div className="lg:hidden bg-primary-white border-t">
+        {isMenuOpen && (
           <div className="container mx-auto px-4 py-4">
             <nav className="space-y-4">
               {navigationLinks.map((link) => (
@@ -223,7 +232,20 @@ export default function Header() {
                   {link.label}
                 </Link>
               ))}
-
+              {/* Dropdown de categorias no mobile */}
+              <div className="pt-4 border-t space-y-2">
+                <h4 className="font-semibold text-primary-graphite mb-2">Categorias</h4>
+                {categories.map((category) => (
+                  <Link
+                    key={category._id}
+                    href={`/catalogo?categoria=${category.slug}`}
+                    className="block px-4 py-2 text-primary-graphite hover:bg-gray-100 hover:text-secondary-orange"
+                    onClick={handleLinkClick}
+                  >
+                    {category.title}
+                  </Link>
+                ))}
+              </div>
               <div className="pt-4 border-t space-y-2">
                 <Button variant="ghost" className="w-full justify-start">
                   <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -234,8 +256,8 @@ export default function Header() {
               </div>
             </nav>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </header>
   );
 }
