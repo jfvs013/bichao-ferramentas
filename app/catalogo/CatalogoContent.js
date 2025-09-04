@@ -7,8 +7,8 @@ import SearchBar from '@/components/atoms/SearchBar';
 import FilterSidebar from '@/components/blocks/FilterSidebar';
 import ProductGrid from '@/components/blocks/ProductGrid';
 import Button from '@/components/atoms/Button';
-import { client } from '@/lib/sanity'; // Importe o cliente Sanity
-import { allProductsQuery, allCategoriesQuery, allBrandsQuery } from '@/lib/queries'; // Importe as queries
+import { client } from '@/lib/sanity';
+import { allProductsQuery, allCategoriesQuery, allBrandsQuery } from '@/lib/queries';
 
 export default function CatalogoContent() {
     const searchParams = useSearchParams();
@@ -22,12 +22,10 @@ export default function CatalogoContent() {
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 12;
 
-    // Carregamento inicial de todos os dados do Sanity
     useEffect(() => {
         async function fetchData() {
             setLoading(true);
             try {
-                // Busque todos os produtos, categorias e marcas
                 const [productsData, categoriesData, brandsData] = await Promise.all([
                     client.fetch(allProductsQuery),
                     client.fetch(allCategoriesQuery),
@@ -47,17 +45,15 @@ export default function CatalogoContent() {
         fetchData();
     }, []);
 
-    // Filtro por categoria via URL (adaptado para o slug)
     useEffect(() => {
         const categoriaSlug = searchParams.get('categoria');
         if (categoriaSlug && products.length > 0) {
             const filtered = products.filter(product =>
-                product.category?.slug === categoriaSlug // Acessa o slug aninhado
+                product.category?.slug === categoriaSlug
             );
             setFilteredProducts(filtered);
-            setCurrentPage(1); // Reinicia a paginação
+            setCurrentPage(1);
         } else {
-            // Se não houver categoria na URL, restaura para todos os produtos
             setFilteredProducts(products);
         }
     }, [searchParams, products]);
@@ -74,26 +70,24 @@ export default function CatalogoContent() {
     const filterProducts = (searchTerm, filters) => {
         let filtered = [...products];
 
-        // Filtro por termo de busca
         if (searchTerm) {
             const lowerCaseTerm = searchTerm.toLowerCase();
             filtered = filtered.filter(product =>
                 product.name.toLowerCase().includes(lowerCaseTerm) ||
-                product.category?.name.toLowerCase().includes(lowerCaseTerm) || // Acessa o nome aninhado
-                product.brand?.name.toLowerCase().includes(lowerCaseTerm)       // Acessa o nome aninhado
+                product.category?.name.toLowerCase().includes(lowerCaseTerm) ||
+                product.brand?.name.toLowerCase().includes(lowerCaseTerm)
             );
         }
 
-        // Aplicar filtros
         if (filters) {
             if (filters.category?.length > 0) {
                 filtered = filtered.filter(product =>
-                    filters.category.includes(product.category.name) // Acessa o nome aninhado
+                    filters.category.includes(product.category.name)
                 );
             }
             if (filters.brand?.length > 0) {
                 filtered = filtered.filter(product =>
-                    filters.brand.includes(product.brand.name) // Acessa o nome aninhado
+                    filters.brand.includes(product.brand.name)
                 );
             }
             if (filters.priceRange) {
@@ -117,7 +111,7 @@ export default function CatalogoContent() {
                 case 'name':
                     return a.name.localeCompare(b.name);
                 case 'brand':
-                    return a.brand.name.localeCompare(b.brand.name); // Acessa o nome aninhado
+                    return a.brand.name.localeCompare(b.brand.name);
                 default:
                     return 0;
             }
@@ -138,7 +132,6 @@ export default function CatalogoContent() {
         console.log('Ver detalhes:', product);
     };
 
-    // Paginação
     const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
     const startIndex = (currentPage - 1) * productsPerPage;
     const endIndex = startIndex + productsPerPage;
@@ -146,7 +139,6 @@ export default function CatalogoContent() {
 
     return (
         <div className="min-h-screen bg-gray-50">
-            {/* Header do Catálogo */}
             <div className="bg-primary-white shadow-sm">
                 <div className="container mx-auto px-4 py-8">
                     <div className="text-center mb-8">
@@ -160,10 +152,8 @@ export default function CatalogoContent() {
                 </div>
             </div>
 
-            {/* Conteúdo */}
             <div className="container mx-auto px-4 py-8">
                 <div className="flex flex-col lg:flex-row gap-8">
-                    {/* Sidebar */}
                     <aside className="lg:w-1/4">
                         <FilterSidebar
                             onFiltersChange={handleFiltersChange}
@@ -177,7 +167,6 @@ export default function CatalogoContent() {
                         />
                     </aside>
 
-                    {/* Produtos */}
                     <main className="lg:w-3/4">
                         <div className="bg-primary-white rounded-lg shadow-sm p-4 mb-6">
                             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -224,7 +213,6 @@ export default function CatalogoContent() {
                             }
                         />
 
-                        {/* Paginação */}
                         {totalPages > 1 && (
                             <div className="mt-8 flex justify-center">
                                 <div className="flex items-center space-x-2">

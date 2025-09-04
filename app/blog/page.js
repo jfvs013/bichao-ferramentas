@@ -1,26 +1,32 @@
+// app/blog/page.js
 import Link from 'next/link';
 import Image from 'next/image';
 import Button from '@/components/atoms/Button';
 import { client } from '@/lib/sanity';
+
+// Importe a função urlForImage para lidar com URLs de imagens do Sanity
 import { urlForImage } from '@/lib/sanity';
 
-// Função para buscar todos os posts do blog no Sanity
-async function fetchBlogPosts() {
-  const query = `*[_type == "post"] | order(publishedAt desc){
+// Query GROQ para buscar posts de blog
+const postsQuery = `
+  *[_type == "post"] | order(publishedAt desc) {
     _id,
     title,
-    slug,
-    excerpt,
-    mainImage,
-    publishedAt,
-    category->{
-      title
-    }
-  }`;
-  const posts = await client.fetch(query);
+    "slug": slug.current,
+    "imageUrl": mainImage.asset->url,
+    "excerpt": excerpt,
+    "categoryTitle": categories[0]->title,
+    publishedAt
+  }
+`;
+
+// Função para buscar os posts no Sanity
+async function fetchBlogPosts() {
+  const posts = await client.fetch(postsQuery);
   return posts;
 }
 
+// Formatar a data para exibição
 const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString('pt-BR', {
     year: 'numeric',
@@ -29,79 +35,91 @@ const formatDate = (dateString) => {
   });
 };
 
+// Exportações de metadata e viewport corrigidas
+export const metadata = {
+  title: 'Blog Bichão Ferramentas',
+  description: 'Leia os últimos artigos sobre ferramentas, projetos e dicas profissionais no blog Bichão Ferramentas.',
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+};
+
 export default async function BlogPage() {
   const posts = await fetchBlogPosts();
 
   return (
-    <>
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary-black via-primary-graphite to-secondary-orange text-primary-white py-20">
+    <div className="min-h-screen bg-gray-50">
+      {/* Header da Página de Blog */}
+      <section className="w-full bg-primary-white py-12 text-primary-black border-b border-gray-200">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-5xl font-bold mb-6">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
             Nosso <span className="text-secondary-orange">Blog</span>
           </h1>
-          <p className="text-xl max-w-3xl mx-auto leading-relaxed">
-            Artigos, dicas e novidades sobre o universo das ferramentas.
+          <p className="text-lg text-gray-700 max-w-2xl mx-auto">
+            Últimas notícias, guias e dicas para seus projetos e ferramentas.
           </p>
         </div>
       </section>
 
-      <main className="min-h-screen bg-gray-50 py-12">
+      {/* Grid de Posts do Blog */}
+      <section className="w-full py-16">
         <div className="container mx-auto px-4">
-          {posts.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {posts.map((post) => (
-                <article
-                  key={post._id}
-                  className="bg-primary-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
-                >
-                  <Link href={`/blog/${post.slug.current}`}>
-                    <div className="aspect-video w-full bg-gray-200 relative">
-                      {post.mainImage ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {posts.length > 0 ? (
+              posts.map((post) => (
+                <article key={post._id} className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform transform hover:-translate-y-2">
+                  <Link href={`/blog/${post.slug}`} className="block">
+                    {post.imageUrl ? (
+                      <div className="aspect-video">
                         <Image
-                          src={urlForImage(post.mainImage).url()}
+                          src={urlForImage(post.imageUrl).url()}
                           alt={post.title}
-                          fill
-                          className="object-cover"
+                          width={600}
+                          height={400}
+                          className="w-full h-full object-cover"
                         />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-secondary-orange to-accent-green text-primary-white">
-                          <svg className="w-24 h-24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
-                          </svg>
-                        </div>
-                      )}
-                    </div>
+                      </div>
+                    ) : (
+                      <div className="w-full aspect-video bg-gradient-to-br from-secondary-orange to-accent-green flex items-center justify-center">
+                        <svg className="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                        </svg>
+                      </div>
+                    )}
                     <div className="p-6">
-                      <span className="bg-gray-200 text-primary-graphite px-2 py-1 rounded text-xs font-medium mb-2 inline-block">
-                        {post.category?.title}
-                      </span>
-                      <h2 className="text-xl font-bold text-primary-black mb-2 line-clamp-2 hover:text-secondary-orange transition-colors">
+                      <div className="flex items-center space-x-2 mb-3">
+                        <span className="bg-gray-200 text-primary-graphite px-2 py-1 rounded text-xs font-medium">
+                          {post.categoryTitle}
+                        </span>
+                        <span className="text-primary-graphite text-xs">
+                          {formatDate(post.publishedAt)}
+                        </span>
+                      </div>
+                      <h2 className="text-xl font-semibold text-primary-black mb-3 line-clamp-2">
                         {post.title}
                       </h2>
                       <p className="text-primary-graphite text-sm mb-4 line-clamp-3">
                         {post.excerpt}
                       </p>
-                      <div className="flex items-center justify-between text-sm text-primary-graphite">
-                        <span>{formatDate(post.publishedAt)}</span>
-                        <Button variant="ghost" size="small" asChild>
-                          <Link href={`/blog/${post.slug.current}`}>
-                            Ler Mais
-                          </Link>
-                        </Button>
-                      </div>
+                      <Button variant="ghost" size="small" asChild>
+                        <Link href={`/blog/${post.slug}`}>
+                          Ler Artigo
+                        </Link>
+                      </Button>
                     </div>
                   </Link>
                 </article>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center text-primary-graphite py-16">
-              <p>Nenhum artigo encontrado.</p>
-            </div>
-          )}
+              ))
+            ) : (
+              <div className="col-span-1 md:col-span-2 lg:col-span-3 text-center py-20">
+                <p className="text-lg text-primary-graphite">Nenhum post de blog encontrado.</p>
+              </div>
+            )}
+          </div>
         </div>
-      </main>
-    </>
+      </section>
+    </div>
   );
 }

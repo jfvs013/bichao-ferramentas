@@ -1,13 +1,18 @@
+// components/layout/Header.js
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import SearchBar from '../atoms/SearchBar';
 import Button from '../atoms/Button';
+import { searchProducts } from '@/utils/searchProducts'; // Importe a função de busca
+import { urlForImage } from '@/lib/sanity'; // Certifique-se de ter esta função para URLs de imagens
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
+  const [showResults, setShowResults] = useState(false);
 
   const navigationLinks = [
     { href: '/', label: 'Início' },
@@ -17,9 +22,32 @@ export default function Header() {
     { href: '/contato', label: 'Contato' }
   ];
 
-  const handleSearch = (searchTerm) => {
-    // Lógica de busca. Em uma aplicação real, você redirecionaria para a página de busca.
-    console.log('Buscar por:', searchTerm);
+  const handleSearch = async (searchTerm) => {
+    if (searchTerm.trim() === '') {
+      setSearchResults([]);
+      setShowResults(false);
+      return;
+    }
+    const results = await searchProducts(searchTerm);
+    setSearchResults(results);
+    setShowResults(true);
+    console.log('Resultados da busca:', results);
+  };
+
+  const handleLinkClick = () => {
+    setShowResults(false);
+    setIsMenuOpen(false); // Fecha o menu mobile ao navegar
+  };
+
+  const handleFocus = () => {
+    setShowResults(true);
+  };
+
+  const handleBlur = () => {
+    // Pequeno atraso para permitir que o clique no link seja processado
+    setTimeout(() => {
+      setShowResults(false);
+    }, 200);
   };
 
   return (
@@ -45,14 +73,13 @@ export default function Header() {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            {/* Substituindo o B por um componente Image */}
+          <Link href="/" className="flex items-center space-x-2" onClick={handleLinkClick}>
             <Image
-              src="/images/logoBichaoFerramentasBG.png" // Verifique se o caminho da imagem está correto
+              src="/images/logoBichaoFerramentasBG.png"
               alt="Logo Bichão Ferramentas"
-              width={50} // Ajuste o tamanho da logo conforme necessário
+              width={50}
               height={50}
-              className="rounded-lg" // Mantenha a borda arredondada se desejar
+              className="rounded-lg"
             />
             <div>
               <h1 className="text-xl font-bold text-primary-black">
@@ -63,16 +90,39 @@ export default function Header() {
           </Link>
 
           {/* Barra de Busca - Desktop */}
-          <div className="hidden lg:block flex-1 max-w-2xl mx-8">
+          <div className="hidden lg:block flex-1 max-w-2xl mx-8 relative">
             <SearchBar
               placeholder="Buscar ferramentas, equipamentos..."
               onSearch={handleSearch}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
             />
+            {showResults && searchResults.length > 0 && (
+              <ul className="absolute top-full left-0 w-full bg-white border border-gray-200 rounded-md shadow-lg mt-1 z-50 max-h-80 overflow-y-auto">
+                {searchResults.map((product) => (
+                  <li key={product._id} className="p-2 hover:bg-gray-100 cursor-pointer">
+                    <Link href={`/produtos/${product.slug.current}`} onClick={handleLinkClick}>
+                      <div className="flex items-center space-x-3">
+                        {product.mainImage?.asset?.url && (
+                          <Image
+                            src={product.mainImage.asset.url}
+                            alt={product.title}
+                            width={40}
+                            height={40}
+                            className="rounded-md"
+                          />
+                        )}
+                        <span>{product.title}</span>
+                      </div>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
           {/* Ações do Header */}
           <div className="flex items-center space-x-4">
-            {/* Lista de Desejos */}
             <Button variant="ghost" className="hidden md:flex items-center space-x-1">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
@@ -80,7 +130,6 @@ export default function Header() {
               <span className="text-sm">Lista</span>
             </Button>
 
-            {/* Menu Mobile */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="lg:hidden p-2"
@@ -93,12 +142,36 @@ export default function Header() {
         </div>
 
         {/* Barra de Busca - Mobile */}
-        <div className="lg:hidden mt-4">
+        <div className="lg:hidden mt-4 relative">
           <SearchBar
             placeholder="Buscar ferramentas..."
             onSearch={handleSearch}
             size="small"
+            onFocus={handleFocus}
+            onBlur={handleBlur}
           />
+          {showResults && searchResults.length > 0 && (
+            <ul className="absolute top-full left-0 w-full bg-white border border-gray-200 rounded-md shadow-lg mt-1 z-50 max-h-80 overflow-y-auto">
+              {searchResults.map((product) => (
+                <li key={product._id} className="p-2 hover:bg-gray-100 cursor-pointer">
+                  <Link href={`/produtos/${product.slug.current}`} onClick={handleLinkClick}>
+                    <div className="flex items-center space-x-3">
+                      {product.mainImage?.asset?.url && (
+                        <Image
+                          src={product.mainImage.asset.url}
+                          alt={product.title}
+                          width={40}
+                          height={40}
+                          className="rounded-md"
+                        />
+                      )}
+                      <span>{product.title}</span>
+                    </div>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
 
@@ -111,12 +184,12 @@ export default function Header() {
                 key={link.href}
                 href={link.href}
                 className="text-primary-white hover:text-secondary-orange transition-colors font-medium"
+                onClick={handleLinkClick}
               >
                 {link.label}
               </Link>
             ))}
 
-            {/* Categorias Dropdown */}
             <div className="relative group">
               <button className="text-primary-white hover:text-secondary-orange transition-colors font-medium flex items-center">
                 Categorias
@@ -125,9 +198,8 @@ export default function Header() {
                 </svg>
               </button>
 
-              {/* Dropdown Menu */}
               <div className="absolute top-full left-0 bg-primary-white shadow-lg rounded-md py-2 w-64 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                <Link href="/catalogo?categoria=ferramentas-manuais" className="block px-4 py-2 text-primary-graphite hover:bg-gray-100 hover:text-secondary-orange">
+                <Link href="/catalogo?categoria=ferramentas-manuais" className="block px-4 py-2 text-primary-graphite hover:bg-gray-100 hover:text-secondary-orange" onClick={handleLinkClick}>
                   Ferramentas Manuais
                 </Link>
               </div>
@@ -146,13 +218,12 @@ export default function Header() {
                   key={link.href}
                   href={link.href}
                   className="block text-primary-graphite hover:text-secondary-orange transition-colors font-medium"
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={handleLinkClick}
                 >
                   {link.label}
                 </Link>
               ))}
 
-              {/* Ações Mobile */}
               <div className="pt-4 border-t space-y-2">
                 <Button variant="ghost" className="w-full justify-start">
                   <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

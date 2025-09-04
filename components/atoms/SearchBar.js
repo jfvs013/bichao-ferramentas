@@ -7,7 +7,9 @@ import Input from './Input';
 export default function SearchBar({
   placeholder = 'Buscar ferramentas...',
   onSearch,
-  className = ''
+  className = '',
+  onFocus, // Novo prop
+  onBlur // Novo prop
 }) {
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -24,6 +26,19 @@ export default function SearchBar({
     }
   };
 
+  // Funções para lidar com o foco e o desfoque
+  const handleFocus = () => {
+    if (onFocus) {
+      onFocus();
+    }
+  };
+
+  const handleBlur = () => {
+    if (onBlur) {
+      onBlur();
+    }
+  };
+
   return (
     <form onSubmit={handleSearch} className={`relative w-full ${className}`}>
       <Input
@@ -32,6 +47,8 @@ export default function SearchBar({
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         onKeyDown={handleKeyDown}
+        onFocus={handleFocus} // Repassando o onFocus
+        onBlur={handleBlur} // Repassando o onBlur
         className="pr-12" // Adiciona espaço para o ícone
       />
       <button

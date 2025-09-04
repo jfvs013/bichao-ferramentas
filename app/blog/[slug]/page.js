@@ -1,3 +1,4 @@
+// app/blog/[slug]/page.js
 import Link from 'next/link';
 import Image from 'next/image';
 import Button from '@/components/atoms/Button';
@@ -90,6 +91,18 @@ const PortableTextComponent = {
     em: ({ children }) => <em>{children}</em>,
   },
 };
+
+// Exportações de metadata e viewport corrigidas
+export const metadata = {
+  title: 'Blog Post',
+  description: 'Leia o último artigo do nosso blog.',
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+};
+
 
 export default async function BlogPostPage({ params }) {
   const post = await fetchBlogPostBySlug(params.slug);
