@@ -1,7 +1,9 @@
 // app/catalogo/page.js
-import CatalogoContent from './CatalogoContent';
+import { Suspense } from 'react';
 import { client } from '@/lib/sanity';
 import { allProductsQuery, allCategoriesQuery, allBrandsQuery } from '@/lib/queries';
+import CatalogoContent from './CatalogoContent';
+import ProductClient from './ProductClient';
 
 export const metadata = {
   title: 'Catálogo de Produtos',
@@ -9,19 +11,19 @@ export const metadata = {
 };
 
 export default async function CatalogoPage() {
-  // 1. Busque os dados no servidor, antes de renderizar
   const [productsData, categoriesData, brandsData] = await Promise.all([
     client.fetch(allProductsQuery),
     client.fetch(allCategoriesQuery),
     client.fetch(allBrandsQuery),
   ]);
 
-  // 2. Passe os dados para o Client Component
   return (
-    <CatalogoContent
-      initialProducts={productsData || []}
-      initialCategories={categoriesData || []}
-      initialBrands={brandsData || []}
-    />
+    <Suspense fallback={<div>Carregando catálogo...</div>}>
+      <ProductClient
+        initialProducts={productsData || []}
+        initialCategories={categoriesData || []}
+        initialBrands={brandsData || []}
+      />
+    </Suspense>
   );
 }
