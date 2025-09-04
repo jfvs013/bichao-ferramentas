@@ -2,7 +2,6 @@
 import { Suspense } from 'react';
 import { client } from '@/lib/sanity';
 import { allProductsQuery, allCategoriesQuery, allBrandsQuery } from '@/lib/queries';
-import CatalogoContent from './CatalogoContent';
 import ProductClient from './ProductClient';
 
 export const metadata = {
