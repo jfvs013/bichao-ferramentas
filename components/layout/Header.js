@@ -205,7 +205,7 @@ export default function Header() {
                 {categories.map((category) => (
                   <Link
                     key={category._id}
-                    href={`/catalogo?categoria=${category.slug}`}
+                    href={`/catalogo?categoria=${category.slug.current}`}
                     className="block px-4 py-2 text-primary-graphite hover:bg-gray-100 hover:text-secondary-orange"
                     onClick={handleLinkClick}
                   >
@@ -238,7 +238,7 @@ export default function Header() {
                 {categories.map((category) => (
                   <Link
                     key={category._id}
-                    href={`/catalogo?categoria=${category.slug}`}
+                    href={`/catalogo?categoria=${category.slug.current}`}
                     className="block px-4 py-2 text-primary-graphite hover:bg-gray-100 hover:text-secondary-orange"
                     onClick={handleLinkClick}
                   >
